@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>充值记录</title>
+	<link rel="stylesheet" type="text/css" href="css/credit.css">
+</head>
+<body>
+	<div class="structure">
+		<div class="header">
+			<div>
+				<a class="back"  href="./userInfo.html"></a>
+			</div>
+			
+			<div id="totalBox">
+				<div id="totalValue1" class="totalValue">
+					<span id="value">14568 </span><span> 元</span>
+					<div class="describe">合计充值金额</div>
+				</div>
+				<div  id="totalValue2" class="totalValue" >
+					<span id="value">36 </span><span> 次</span>
+					<div class="describe">总充值次数</div>
+				</div>
+			</div>
+		</div>
+		
+					
+		<div id="selectBoxes">
+			<div class="selected">
+				<input type="button" id="currentTime" value="最近一个月" onclick="recordTime()">
+				<input type="button" id="currentGame" value="全部游戏" onclick="recordGame()">
+			</div>
+				
+			<div class="select" id="recordTimeList">
+				<button class="subTimeBtn" id="oneMonth" onclick="currentTimeChange(event)">最近一个月</button>
+				<button class="subTimeBtn" id="halfYear" onclick="currentTimeChange(event)" >最近半年</button>
+				<button class="subTimeBtn" id="allTimeRecord" onclick="currentTimeChange(event)">全部记录</button>
+			</div>
+			<div  class="select" id="recordGameList">
+				<button class="subGameBtn" id="allGame" onclick="currentGameChange(event)">全部游戏</button>
+				<button class="subGameBtn" id="ssjjPhone" onclick="currentGameChange(event)" >生死狙击手游</button>				
+				<button class="subGameBtn" id="ssjj1" onclick="currentGameChange(event)">生死狙击1</button>	
+				<button class="subGameBtn" id="ssjj2" onclick="currentGameChange(event)">生死狙击2</button>
+
+			</div>
+		</div>
+		
+		<div id="cover"></div>	
+		<div id="creditDataBox">
+			<div class="creditData">
+				<div class='dataRecord'>
+					<p><span>游戏：</span><span>生死狙击2</span>	</p>
+					<p><span>区服：</span><span>生死狙击1区</span></p>
+					<p><span>项目：</span><span>66金币大礼包</span>	</p>
+					<p><span>时间：</span><span>2019-08-06</span></p>			
+				</div>
+				<div class='dataValue'>
+					<p><span id="recordValue">567</span><span>元</span></p>
+				</div>
+			</div>
+
+			<div class="creditData">
+				<div class='dataRecord'>
+					<p><span>游戏：</span><span>生死狙击2</span>	</p>
+					<p><span>区服：</span><span>生死狙击1区</span></p>
+					<p><span>项目：</span><span>中秋土豪大礼包</span></p>
+					<p><span>时间：</span><span>2019-08-06</span></p>				
+				</div>
+				<div class='dataValue'>
+					<p><span id="recordValue">999</span><span>元</span></p>
+					<button id="changeCode">查看兑换码</button>
+				</div>
+			</div>
+		</div>
+		
+		
+
+		<script type="text/javascript">
+
+			function recordTime() {
+				var recordGameList=document.getElementById("recordGameList");
+				var cover = document.getElementById("cover");
+				if (recordGameList.style.display == 'block') {
+					recordGameList.style.display = 'none';
+				}
+				var recordTimeList=document.getElementById("recordTimeList");
+				if (recordTimeList.style.display == 'block') {
+					recordTimeList.style.display = 'none';
+					cover.style.display = 'none';
+				} else {
+					recordTimeList.style.display = 'block';
+					cover.style.display = 'block';
+				}					
+			}
+
+			function currentTimeChange(e) {
+				var cur = document.getElementById("currentTime");
+					var btns = document.getElementsByClassName("subTimeBtn");
+					for (var i = 0; i < btns.length; i++) {
+						btns[i].style.backgroundColor = '#333333';
+					}
+				if(e.target.id =="oneMonth"){
+		     		document.getElementById("currentTime").value = "最近一个月";
+		     		document.getElementById("oneMonth").style.backgroundColor = '#c72729';
+		   	 	}else if(e.target.id =="halfYear"){
+		   	 		document.getElementById("currentTime").value = "最近半年";
+		   	 		document.getElementById("halfYear").style.backgroundColor = '#c72729';
+		   		} else if (e.target.id =="allTimeRecord") {
+		   			document.getElementById("currentTime").value = "全部记录";
+		   			document.getElementById("allTimeRecord").style.backgroundColor = '#c72729';
+		   		}
+		   		recordTime();
+		   	}
+
+		   	function recordGame() {
+		   		var recordTimeList=document.getElementById("recordTimeList");
+		   		var cover = document.getElementById("cover");
+				if (recordTimeList.style.display == 'block') {
+					recordTimeList.style.display = 'none';
+				}
+				var recordGameList=document.getElementById("recordGameList");
+				if (recordGameList.style.display == 'block') {
+					recordGameList.style.display = 'none';
+					cover.style.display = 'none';
+				} else {
+					recordGameList.style.display = 'block';
+					cover.style.display = 'block';
+				}					
+			}
+
+			function currentGameChange(e) {
+					var cur = document.getElementById("currentGame");
+					var btns = document.getElementsByClassName("subGameBtn");
+					for (var i = 0; i < btns.length; i++) {
+						btns[i].style.backgroundColor = '#333333';
+					}
+					
+				if(e.target.id =="allGame"){
+		     		cur.value = "全部游戏";
+		     		document.getElementById("allGame").style.backgroundColor = '#c72729';
+		   	 	}else if(e.target.id =="ssjjPhone"){
+		   	 		cur.value = "生死狙击手游";
+		   	 		document.getElementById("ssjjPhone").style.backgroundColor = '#c72729';
+		   		} else if (e.target.id =="ssjj1") {
+		   			cur.value = "生死狙击1";
+		   			document.getElementById("ssjj1").style.backgroundColor = '#c72729';
+		   		} else if (e.target.id =="ssjj2") {
+		   			cur.value = "生死狙击2";
+		   			document.getElementById("ssjj2").style.backgroundColor = '#c72729';
+		   		}
+		   		recordGame();
+		   	}
+
+				
+		</script>
+			
+	</div>
+</body>
+</html>

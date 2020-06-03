@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>注册</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="structure">
+		<div>
+			<h1 class="header">注册</h1>
+			<div class="describe">使用账号/手机/邮箱注册</div>
+		</div>
+		<div class="inputBoxes" id="mainStyle">
+			<input type="text" class="userInput" id="userid" placeholder="请输入账号/邮箱/手机号码">
+			<div class="verification">
+				<input type="text"  class="userInput" id="verificationText" placeholder="请输入验证码">
+				<img id="verificationCode" src="image/verificationCode.png" onclick="">
+			</div>
+			
+			<input type="text"  class="userInput" id="password" placeholder="请输入您的密码">
+			<input type="text"  class="userInput" id="passwordAgain" placeholder="请再次输入您的密码">
+			<input type="button" class="submitButton" id="registerButton" value="立即注册" >
+		</div>
+		<div class="otherFunc" id="loginPageBox">
+			<a href="./login.html" id="loginPage">已有账号？立即登录</a>
+		</div>
+	</div>
+</body>
+</html>

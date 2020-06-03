@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>手机号码</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="loginBackground">
+        <div class="structure2">
+           <div>
+                <a class="cancel" href="./userInfo.html"></a>
+            </div>
+            <div class="desTiltle">
+            <div>
+                <h1 class="header">手机号码</h1>
+                <div class="describe">您正在解除绑定手机号码</div>
+            </div>
+            <div class="inputBoxes">
+                <input type="text" class="userInput" id="oldPhone" placeholder="15395172720">
+                <div class="verification">
+                    <input type="text"  class="userInput"  id="verificationEnter" placeholder="手机验证码">
+                    <input type="button" id="verificationSend" value="发送验证码">
+                    <div class="verticleLine"></div>
+                </div>
+                <div class="verification">
+                    <input type="text"  class="userInput" id="verificationText" placeholder="图片验证码">
+                    <img id="verificationCode" src="image/verificationCode.png" onclick="">
+                </div>
+                <a href="./setPhone.html">
+                   <input type="button" class="submitButton" id="registerButton" value="提交" > 
+                </a>
+                
+            </div>
+            <div class="otherFunc" id="loginPageBox">
+                <a href="./appeal.html" id="loginPage">手机已不使用？点此申诉</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
