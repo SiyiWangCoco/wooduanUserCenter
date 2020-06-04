@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>登录</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -55,8 +55,9 @@
 					email = userid.value;
 				} else { // 非邮箱用户名
 					let num = parseInt(userid.value);
-					if (isNaN(num) || num.toString().length != userid.value.length) { //非法用户名
-						alert("请输入正确的账号/邮箱/手机号码");
+					if (isNaN(num) || num.toString().length != userid.value.length) { //输入为账号
+						type = 2;
+						account = userid.value;
 						return;
 					} else if (phoneReg.test(num)) { //输入为手机号
 						type = 1;
@@ -85,7 +86,7 @@
 
 	        $.ajax({
 	                type:"POST",
-	                url: '/web/basic/login',
+	                url: 'http://192.168.0.18:8015/web/basic/login',
 	                dataType:"json",
 	                data:JSON.stringify(postData),
 	                contentType:'application/json',
