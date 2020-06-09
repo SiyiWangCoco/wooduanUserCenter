@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>电子邮箱</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <meta charset="utf-8">
+  <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>电子邮箱</title>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
-    <div class="loginBackground">
-        <div class="structure2">
-            <div>
-                <a class="cancel" href="./userInfo.html"></a>
-            </div>
-            <div class="desTiltle">
-                <h1 class="header">电子邮箱</h1>
-            </div>
-            <div class="textDescribe">
-                您的邮箱已经绑定成功，您可以使用邮箱登录或在忘记密码时使用邮箱找回您的密码<br> 您的电子邮箱：
-                 <span class="important">jyp@wooduan.com</span>
-            </div>
-            <div class="inputBoxes" >
-                <input type="button" class="submitButton" id="setPhoneButton" value="解除绑定" onclick="cancelWarning()">
-            </div>
-            
-        </div>
+  <div class="loginBackground">
+    <div class="structure2">
+      <div>
+        <a class="cancel" href="./userInfo.html"></a>
+      </div>
+      <div class="desTiltle">
+        <h1 class="header">电子邮箱</h1>
+      </div>
+      <div class="textDescribe">
+        您的邮箱已经绑定成功，您可以使用邮箱登录或在忘记密码时使用邮箱找回您的密码
+        <br> 您的电子邮箱：<span class="important">jyp@wooduan.com</span>
+      </div>
+      <div class="inputBoxes" >
+        <input type="button" class="submitButton" id="setPhoneButton" value="解除绑定" onclick="cancelWarning()">
+      </div>      
     </div>
-       <div id="cancelWarning">
-            <div class="warningInnerBox">
-                <p class="warningTitle">提示</p>
-                <p class="warningInfo">你确定要将此邮箱解绑吗？</p>
-                <div class="bBox">
-                    <button class="cancelPhoneNum" id="no" onclick="cancelWarning()">取消</button>
-                    <button class="cancelPhoneNum" id="yes" onclick="yes()" >确定</button>
-                </div>
-             
-            </div>
-        </div>
-         <script type="text/javascript">
-        function cancelWarning() {
-                var cancelWarning=document.getElementById("cancelWarning");
-                if (cancelWarning.style.display == 'block') {
-                    cancelWarning.style.display = 'none';
-                } else {
-                    cancelWarning.style.display = 'block';
-                }                   
-            }
-
-        function yes(){
-            window.location.href="./changeEmail.html"  
-        }
-
-    </script>
+  </div>
+  <div id="cancelWarning">
+    <div class="warningInnerBox">
+      <p class="warningTitle">提示</p>
+      <p class="warningInfo">你确定要将此邮箱解绑吗？</p>
+      <div class="bBox">
+        <button class="cancelPhoneNum" id="no" onclick="cancelWarning()">取消</button>
+        <button class="cancelPhoneNum" id="yes" onclick="yes()" >确定</button>
+      </div>
+    </div>
+  </div>
 </body>
+<script type="text/javascript">
+  //解除绑定警告窗口
+  function cancelWarning() {
+    var cancelWarning=document.getElementById("cancelWarning");
+    if (cancelWarning.style.display == 'block') {
+      cancelWarning.style.display = 'none';
+    } else {
+      cancelWarning.style.display = 'block';
+    }                   
+  }
+
+  function yes(){
+    window.location.href="./changeEmail.html"  
+  }
+</script>
 </html>

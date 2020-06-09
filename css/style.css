@@ -1,10 +1,10 @@
 @font-face {
-    font-family: PingFang;
-     src: url("font/PingFang.otf")
+  font-family: PingFang;
+  src: url("font/PingFang.otf");
 }
 
 body {
-  background: rgba(25,24,24,1) url(./../image/background.png) no-repeat center 0px;;
+  background: rgba(25,24,24,1) url(./../image/background.png) no-repeat center 0px;
   background-size:cover;
   margin: 0px;
   color: #e1e1e1;
@@ -31,6 +31,7 @@ body {
   padding-bottom: 15%;
   
 }
+
 .structure2 {
   padding-left: 13%;
   padding-top: 8vw;
@@ -38,7 +39,6 @@ body {
   padding-bottom: 15%;
   
 }
-
 
 .cancel {
   background: transparent url(./../image/cancel.png) no-repeat center 0px;
@@ -49,7 +49,6 @@ body {
   float: right;
   margin-right: -6vw;
 }
-
 
 .subTiltle {
   padding-top: 15vw;
@@ -95,8 +94,6 @@ body {
   margin-top: 6%;
   vertical-align:middle;
 }
-
-
 
 /*all*/
 .inputBoxes input{
@@ -149,6 +146,7 @@ body {
   margin-top: 3vw;
   height: 14vw;
 }
+
 .aBox a{
   font-size:5vw; 
   color: #e1e1e1;
@@ -174,7 +172,6 @@ body {
 }
 
 .inputBoxesForThird input{
-
   letter-spacing:2px;
   border: 0px;
   width: 30%;
@@ -202,7 +199,6 @@ body {
   vertical-align: middle;
 }
 
-
 .line {
   opacity: 0.2;
   margin-top: 10%;
@@ -222,7 +218,6 @@ body {
 }
 
 /*register*/
-
 #passwordAgain {
   background: rgba(171,171,171,0.3) url(./../image/passwordIcon.png) no-repeat;
   background-position: 6% 45%;
@@ -520,7 +515,6 @@ body {
   width: 100%;
   height: 7vw;
 }
-  
   
 #cancelWarning {
   display: none;

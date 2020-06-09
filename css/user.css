@@ -1,6 +1,6 @@
 @font-face {
-    font-family: PingFang;
-     src: url("font/PingFang.otf")
+  font-family: PingFang;
+  src: url("font/PingFang.otf");
 }
 
 body {
@@ -121,19 +121,19 @@ body {
 }
 
 .underLine {
-   border-bottom: 1px solid rgba(51,51,51,0.1);
-   padding-bottom: 4vw;
-   float: right;
+  border-bottom: 1px solid rgba(51,51,51,0.1);
+  padding-bottom: 4vw;
+  float: right;
   width: 80%;
-   height: 5vw;
+  height: 5vw;
 
 }
 
 .noUnderLine {
-   padding-bottom: 4vw;
-   float: right;
-   width: 80%;
-   height: 5vw;
+  padding-bottom: 4vw;
+  float: right;
+  width: 80%;
+  height: 5vw;
 
 }
 
@@ -152,15 +152,11 @@ body {
   padding-left: 5vw;
 }
 
-
 .detailIcons{
   float: left;
   margin-left: 5vw;
   height: 6vw;
-
-
 }
-
 
 .detailIconss{
   float: left;
@@ -168,9 +164,11 @@ body {
   height: 5vw;
 
 }
+
 .detailIcons img {
   height: 100%;
 }
+
 .detailIconss img {
   height: 100%;
 }
@@ -181,6 +179,7 @@ body {
   padding-bottom: 3vw;
   height: 5vw;
 }
+
 .rightArrow img {
   height: 100%;
 }
@@ -200,12 +199,10 @@ body {
   border-top: 1px solid rgba(51,51,51,0.1);
 }
 
-
 #structure {
   background: url(./../image/userInfoBackground2.png) no-repeat center 0px ;
   background-size: contain;
 }
-
 
 .back {
   display: block;
@@ -218,8 +215,6 @@ body {
   background-size: contain;
 }
 
-
-
 #changingDetails {
  margin-top:12vw ;
 }
@@ -230,19 +225,15 @@ body {
   height: 15vw;
  }
 
-
-
 .whitleLine {
   width: 100%;
   height: 7vw;
   padding-top: 3vw;
   padding-bottom: 3vw;
   border-bottom: 1px solid rgba(51,51,51,0.3);
-
 }
 
  .whitleLine input {
-
   border: 0px;
   font-size: 4vw;
   float: right;
@@ -256,7 +247,6 @@ body {
 }
 
  .whitleLine select {
-
   height:8vw;
   border: 0px;
   float: right;
@@ -297,13 +287,10 @@ body {
   margin-left: 1.8vw;
 }
 
-
-
 #birthday select {
   display: inline-block;
   float: right;
 }
-
 
 #birthday div {
   display: inline-block;

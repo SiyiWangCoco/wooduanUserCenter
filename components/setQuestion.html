@@ -1,43 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>手机号码</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <meta charset="utf-8">
+  <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>手机号码</title>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
-    <div class="loginBackground">
-        <div class="structure2">
-           <div>
-                <a class="cancel" href="./userInfo.html"></a>
-            </div>
-            <div class="desTiltle">
-            <div>
-                <h1 class="header">密保问题</h1>
-                <div class="describe">请选择密保问题并填写密保答案</div>
-            </div>
-            <div class="inputBoxes">
-	            <div class="verification">
-					<img class="questionIcon" src="../image/question.png">
-					<select type="text"  id="question">
-						<option selected="selected">请选择您设置的密保问题</option>
-						<option>AAA</option>
-						<option>CCC</option>
-					</select>
-				</div>
-			
-				<input type="text" class="userInput" id="answer" placeholder="请输入您的密保答案">
-
-				<input type="text" class="userInput" id="answer" placeholder="请再次输入您的密保答案">
-
-                <a href="./questionConfirmed.html">
-                   <input type="button" class="submitButton" id="registerButton" value="提交" > 
-                </a>
-                
-            </div>
-          
-        </div>
+  <div class="loginBackground">
+    <div class="structure2">
+      <div>
+        <a class="cancel" href="./userInfo.html"></a>
+      </div>
+      <div class="desTiltle">
+        <h1 class="header">密保问题</h1>
+        <div class="describe">请选择密保问题并填写密保答案</div>
+      </div>
+      <div class="inputBoxes">
+	    <div class="verification">
+		  <img class="questionIcon" src="../image/question.png">
+		  <select type="text"  id="question">
+			<option selected="selected">请选择您设置的密保问题</option>
+			<option>AAA</option>
+			<option>CCC</option>
+		  </select>
+		</div>
+		<input type="text" class="userInput" id="answer" placeholder="请输入您的密保答案">
+		<input type="text" class="userInput" id="answer" placeholder="请再次输入您的密保答案">
+        <a href="./questionConfirmed.html">
+          <input type="button" class="submitButton" id="registerButton" value="提交" > 
+        </a>     
+      </div>  
     </div>
+  </div>
 </body>
 </html>

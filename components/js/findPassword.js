@@ -114,10 +114,10 @@ function passwordSubmit(){
     dataType:"json",
     data:JSON.stringify(postData),
     contentType:'application/json',
-    // headers:{
-    //   'Content-Type':application/json', 
-    //   'token' : token
-    // },
+    headers:{
+      'Content-Type':'application/json', 
+      'token' : token
+    },
     success:function(res){
       console.log(res)
       if (res.code == 10001) {

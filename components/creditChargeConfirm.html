@@ -1,168 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>在线充值</title>
-	<link rel="stylesheet" type="text/css" href="../css/charge.css">
-	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <meta charset="utf-8">
+  <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>在线充值</title>
+  <link rel="stylesheet" type="text/css" href="../css/charge.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body onload="getInfo()">
-	<div class="structure">
-		<div class="header">
-			<div>
-				<a class="back"  href="./creditPackage.html"></a>
-			</div>
-			<div class="titleName">
-				<h1> 在线充值 </h1>	
-				<div class="describe">请确认以下充值信息并支付</div>	
-			</div>
-		</div>
-		<br>
-					
-		<div class="comfirmBox">
-			<div class="blackLine">
-				<div class="comfirmLabel">
-					充值账号：
-				</div>
-				<div class="confirmInfo">
-					<span id="account">hugcolin@163.com</span>
-				</div>
-			</div>
-			<div class="greyLine">
-				<div class="comfirmLabel">
-					游戏区服：
-				</div>
-				<div class="confirmInfo">
-					<span id="gameName">生死狙击2</span>-<span id="gameRe">电信一区</span>
-				</div>
-			</div>
-			<div class="blackLine">
-				<div class="comfirmLabel">
-					充值礼包：
-				</div>
-				<div class="confirmInfo">
-					金币礼包(<span id="gamePackage">99</span>金币)
-				</div>
-			</div>
-			<div class="greyLine">
-				<div class="comfirmLabel">
-					需支付金额：
-				</div>
-				<div class="confirmInfo">
-				 	<span id="gameMoney">99</span> 元
-				</div>
-			</div>
-			<div class="blackLine">
-				<div class="comfirmLabel">
-					支付方式：
-				</div>
-				<div class="confirmInfo">
-					<select id="paySele">
-						<option selected="selected">支付宝</option>
-						<option>微信</option>
-					</select>
-				</div>
-			</div>
-			<button id="pay" onclick="pay()">立即支付</button>
-		</div>	
+  <div class="structure">
+	<div class="header">
+	  <div>
+		<a class="back"  href="./creditPackage.html"></a>
+	  </div>
+	  <div class="titleName">
+		<h1> 在线充值 </h1>	
+		<div class="describe">请确认以下充值信息并支付</div>	
+	  </div>
 	</div>
+	<br>			
+	<div class="comfirmBox">
+	  <div class="blackLine">
+		<div class="comfirmLabel">充值账号：</div>
+		<div class="confirmInfo"><span id="account">hugcolin@163.com</span></div>
+	  </div>
+	  <div class="greyLine">
+		<div class="comfirmLabel">游戏区服：</div>
+		<div class="confirmInfo"><span id="gameName">生死狙击2</span>-<span id="gameRe">电信一区</span></div>
+	  </div>
+	  <div class="blackLine">
+		<div class="comfirmLabel">充值礼包：</div>
+		<div class="confirmInfo">金币礼包(<span id="gamePackage">99</span>金币)</div>
+	  </div>
+	  <div class="greyLine">
+		<div class="comfirmLabel">需支付金额：</div>
+		<div class="confirmInfo"><span id="gameMoney">99</span> 元</div>
+	  </div>
+	  <div class="blackLine">
+		<div class="comfirmLabel">支付方式：</div>
+		<div class="confirmInfo">
+		  <select id="paySele">
+			<option selected="selected">支付宝</option>
+			<option>微信</option>
+		  </select>
+		</div>
+	  </div>
+	  <button id="pay" onclick="pay()">立即支付</button>
+	</div>	
+  </div>
 </body>
 <script type="text/javascript">
-	let gameId = window.localStorage.gameId;
-	let regionId = window.localStorage.regionId;
-	let token = window.localStorage.token;
-    let value = window.localStorage.value;
-    let ratio = window.localStorage.ratio;
-	function getInfo(){
-		$.ajax({
-              type:'GET',
-              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
-              dataType:"json",
-              headers:{
-              	'Content-Type':'application/x-www-form-urlencoded'
-              },
-              success:function(res){
-               console.log(res.data); 
-               gameInfo(res.data);
-              },
-              error:function() { 
-                alert("error");
-             } 
-            });
+  let gameId = window.localStorage.gameId;
+  let regionId = window.localStorage.regionId;
+  let token = window.localStorage.token;
+  let value = window.localStorage.value;
+  let ratio = window.localStorage.ratio;
+  
+  function getInfo(){
+    //获取接口游戏信息
+	$.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded'
+      },
+      success: function(res){
+        console.log(res.data); 
+        gameInfo(res.data);
+      },
+      error: function() { 
+        alert("error");
+      } 
+    });
 
-		$.ajax({
-              type:'GET',
-              url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
-              dataType:"json",
-              headers:{
-              	'Content-Type':'application/x-www-form-urlencoded', 
-              	'token' : token
-              },
+    //获取接口用户信息
+	$.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded', 
+        'token' : token
+      },
+      success: function(res){
+        console.log(res.data); 
+        userInfo(res.data);
+      },
+      error: function() { 
+        alert("error");
+      } 
+    });
+  }
 
-              success:function(res){
-               console.log(res.data); 
-               userInfo(res.data);
-              },
+  //充值用户信息
+  function userInfo(data) { 
+	var account = document.getElementById("account");
+	if (data.account.length != 0) {
+	  account.innerHTML = data.account;
+	} else if (data.email.length != 0) {
+	  account.innerHTML = data.email;
+	} else if (data.phone.length != 0) {
+	  account.innerHTML = data.phone;
+	} else {
+	  alert("error");
+	}
+  }
 
-              error:function() { 
-                alert("error");
-             } 
-            });
+  //充值游戏信息
+  function gameInfo(data) {
+	var gameName = document.getElementById("gameName"); //游戏名
+	var gameRe = document.getElementById("gameRe"); //游戏区服
+    var gamePackage = document.getElementById("gamePackage"); // package 礼包
+    var gameMoney = document.getElementById("gameMoney"); //支付金额
+    gamePackage.innerHTML = value;
+    gameMoney.innerHTML = value * ratio * 0.1;
 
+	for (let i = 0; i < data.games.length; i++) {  //region
+	  if (data.games[i].id == gameId) {
+		gameName.innerHTML = data.games[i].name.zh;
+		for (let j = 0; j < data.games[i].regions.length; j++) { 
+		  if (data.games[i].regions[j].id == regionId) {
+			gameRe.innerHTML = data.games[i].regions[j].name; 
+		  }		
+		}
+	  }	
 	}
 
-	function userInfo(data) {
-		var account = document.getElementById("account");
-
-		if (data.account.length != 0) {
-			account.innerHTML = data.account;
-		} else if (data.email.length != 0) {
-			account.innerHTML = data.email;
-		} else if (data.phone.length != 0) {
-			account.innerHTML = data.phone;
-		} else {
-			alert("error");
-		}
-
-
+	paySele = document.getElementById("paySele"); //对应游戏可接受支付方式选择创建
+	paySele.innerHTML = "";
+	for (let k = 0; k < data.payments.length; k++) {        
+	  let payOption = document.createElement("option");
+	  payOption.innerHTML =  data.payments[k].name;
+	  payOption.id = data.payments[k].id;
+	  payOption.value = data.payments[k].id;
+	  paySele.appendChild(payOption);
 	}
+  }
 
-	function gameInfo(data) {
-		var gameName = document.getElementById("gameName");
-		var gameRe = document.getElementById("gameRe");
-        
-        var gamePackage = document.getElementById("gamePackage"); // package 礼包
-        var gameMoney = document.getElementById("gameMoney");
-        gamePackage.innerHTML = value;
-        gameMoney.innerHTML = value * ratio * 0.1;
-		
-		for (let i = 0; i < data.games.length; i++) {  //region
-			if (data.games[i].id == gameId) {
-				gameName.innerHTML = data.games[i].name.zh;
-				for (let j = 0; j < data.games[i].regions.length; j++) { 
-					if (data.games[i].regions[j].id == regionId) {
-						gameRe.innerHTML = data.games[i].regions[j].name; 
-					}		
-				}
-			}	
-		}
-
-		paySele = document.getElementById("paySele");
-		paySele.innerHTML = "";
-		for (let k = 0; k < data.payments.length; k++) {        // 支付方式
-			let payOption = document.createElement("option");
-			payOption.innerHTML =  data.payments[k].name;
-			payOption.id = data.payments[k].id;
-			payOption.value = data.payments[k].id;
-			paySele.appendChild(payOption);
-		}
-
-	}
-
-    function pay(){
-        alert("success");
-        window.location.href  = "/components/userInfo.html";
-    }
+  //确认支付，支付成功提示跳转界面
+  function pay(){
+    alert("success");
+    window.location.href  = "/components/userInfo.html";
+  }
 </script>
 </html>

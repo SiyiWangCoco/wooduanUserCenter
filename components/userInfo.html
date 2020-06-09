@@ -1,211 +1,184 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>流水席</title>
-	<link rel="stylesheet" type="text/css" href="../css/user.css">
-	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <meta charset="utf-8">
+  <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>流水席</title>
+  <link rel="stylesheet" type="text/css" href="../css/user.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body onLoad="getInfo()">
-	<div class="userStruc">
-		<div id="userHeader">
-			<div id="setButton">
-				<div>
-					<a id="setText" href="./userInfoChange.html">账号设置</a>
-				</div> 	
-				<div>
-					<img id="setImg" src="../image/setIcon.png">
-				</div>
-				
-			</div>
-			<div id="userTitle">
-				<div>
-					<img id="userIcon" src="../image/userColoredIcon.png">
-				</div>
-				<div id="useridNum">
-					 <p><span id="useridName">流水席</span><span id="useridNumber">#8909</span></p>
-					 <p id="useridPhone">15395171720</p>
-				</div>
-			</div>
+  <div class="userStruc">
+	<div id="userHeader">
+	  <div id="setButton">
+		<div>
+		  <a id="setText" href="./userInfoChange.html">账号设置</a>
+		</div> 	
+		<div>
+		  <img id="setImg" src="../image/setIcon.png">
+		</div>		
+	  </div>
+	  <div id="userTitle">
+		<div>
+		  <img id="userIcon" src="../image/userColoredIcon.png">
 		</div>
-
-		<div id="userDetails">
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/passwordColoredIcon.png"></div>
-				<a class="underLine" href="./changePassword.html">
-					<div class="details">密码设置</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIconss"><img src="../image/identityColoredIcon.png"></div>
-				<a class="underLine" href="./setIdentity.html">
-					<div class="details" >实名认证</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo" id="realName">江羿平</div>
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/phoneColoredIcon.png"></div>
-				<a class="underLine" href="./phoneConfirmed.html">
-					<div class="details">手机号码</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo" id="phoneNum">15395172720</div>
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIconss"><img src="../image/emailColoredIcon.png"></div>
-				<a class="underLine" href="./emailConfirmed.html">
-					<div class="details">电子邮箱</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo" id="emailNum">jyp@wooduan.com</div>	
-				</a>
-			
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/questionColoredIcon.png"></div>
-				<a class="underLine" href="./questionConfirmed.html">
-					<div class="details">密保问题</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo" id="question">未设置</div>	
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/thirdColoredIcon.png"></div>
-				<a class="noUnderLine" href="./thirdParty.html">
-					<div class="details">第三方账号绑定</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>
-				
-			</div>
-	
-			<div class="whitleLink" id="infoCenterTitle">
-				充值中心
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/chargingColoredIcon.png"></div>
-				<a class="underLine" href="./creditCharge.html">
-					<div class="details">在线充值</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/recordColoredIcon.png"></div>
-				<a class="noUnderLine" href="./credit.html">
-					<div class="details">充值记录</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>
-				
-			</div>
-		
-			<div class="whitleLink"  id="infoCenterTitle">
-				客服中心
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/serviceColoredIcon.png"></div>
-				<a class="underLine">
-					<div class="details">客服热线</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo">0571-81021034</div>
-				</a>
-				
-			</div>
-			<div class="whitleLink">
-				<div class="detailIcons"><img src="../image/appealColoredIcon.png"></div>
-				<a class="underLine" href="./appeal.html">
-					<div class="details">账号申诉</div>
-					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>	
-			</div>
-			<div class="whitleLink"></div>
-			<div class="whitleLink"></div>
+		<div id="useridNum">
+		  <p><span id="useridName">流水席</span><span id="useridNumber">#8909</span></p>
+		  <p id="useridPhone">15395171720</p>
 		</div>
-	</div>	
+	  </div>
+	</div>
+	<div id="userDetails">
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/passwordColoredIcon.png"></div>
+		<a class="underLine" href="./changePassword.html">
+		  <div class="details">密码设置</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		</a>
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIconss"><img src="../image/identityColoredIcon.png"></div>
+		<a class="underLine" href="./setIdentity.html">
+		  <div class="details" >实名认证</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		  <div class="detailInfo" id="realName">江羿平</div>
+		</a>	
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/phoneColoredIcon.png"></div>
+		<a class="underLine" href="./phoneConfirmed.html">
+		  <div class="details">手机号码</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		  <div class="detailInfo" id="phoneNum">15395172720</div>
+		</a>	
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIconss"><img src="../image/emailColoredIcon.png"></div>
+		<a class="underLine" href="./emailConfirmed.html">
+		  <div class="details">电子邮箱</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		  <div class="detailInfo" id="emailNum">jyp@wooduan.com</div>	
+		</a>
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/questionColoredIcon.png"></div>
+		<a class="underLine" href="./questionConfirmed.html">
+		  <div class="details">密保问题</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		  <div class="detailInfo" id="question">未设置</div>	
+		</a>	
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/thirdColoredIcon.png"></div>
+		<a class="noUnderLine" href="./thirdParty.html">
+		  <div class="details">第三方账号绑定</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		</a>	
+	  </div>
+	  <div class="whitleLink" id="infoCenterTitle">
+		充值中心
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/chargingColoredIcon.png"></div>
+		<a class="underLine" href="./creditCharge.html">
+		  <div class="details">在线充值</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		</a>	
+	  </div>
+	  <div class="whitleLink">
+	    <div class="detailIcons"><img src="../image/recordColoredIcon.png"></div>
+		<a class="noUnderLine" href="./credit.html">
+		  <div class="details">充值记录</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		</a>	
+	  </div>
+	  <div class="whitleLink"  id="infoCenterTitle">
+		客服中心
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/serviceColoredIcon.png"></div>
+		<a class="underLine">
+		  <div class="details">客服热线</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		  <div class="detailInfo">0571-81021034</div>
+		</a>		
+	  </div>
+	  <div class="whitleLink">
+		<div class="detailIcons"><img src="../image/appealColoredIcon.png"></div>
+		<a class="underLine" href="./appeal.html">
+		  <div class="details">账号申诉</div>
+		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
+		</a>	
+	  </div>
+	  <div class="whitleLink"></div>
+	  <div class="whitleLink"></div>
+	</div>
+  </div>	
 </body>
 <script type="text/javascript">
-	 let token = window.localStorage.token;
-	function getInfo(){
-		 $.ajax({
-              type:'GET',
-              url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
-              dataType:"json",
-              headers:{
-              	'Content-Type':'application/x-www-form-urlencoded', 
-              	'token' : token
-              },
+  let token = window.localStorage.token;
+  function getInfo(){
+    $.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
+      dataType:"json",
+      headers:{
+      	'Content-Type':'application/x-www-form-urlencoded', 
+      	'token' : token
+      },
+      success:function(res){
+        console.log(res.data); 
+        setInfo(res.data);
+      },
+      error:function() { 
+        alert("error");
+      } 
+    });
+  }
 
-              success:function(res){
-               console.log(res.data); 
-               setInfo(res.data);
-              },
-
-              error:function() { 
-                alert("error");
-             } 
-            });
+  function setInfo(data){
+	//标题区
+	var userIcon = document.getElementById("userIcon");
+	var useridName = document.getElementById("useridName");
+	var useridNumber = document.getElementById("useridNumber");
+	var useridPhone = document.getElementById("useridPhone");
+	//信息区
+	var realName = document.getElementById("realName");
+	var phoneNum = document.getElementById("phoneNum");
+	var emailNum = document.getElementById("emailNum");
+	var question = document.getElementById("question");	
+	//标题区
+	useridNumber.innerHTML = "#" + data.nick_id;  //id
+	useridPhone.innerHTML = data.phone; //手机号
+	if (data.logo.length != 0) {  //头像
+	  userIcon.setAttribute("src", data.logo);   
 	}
-
-
-	function setInfo(data){
-		//标题区
-		var userIcon = document.getElementById("userIcon");
-		var useridName = document.getElementById("useridName");
-		var useridNumber = document.getElementById("useridNumber");
-		var useridPhone = document.getElementById("useridPhone");
-		//信息区
-		var realName = document.getElementById("realName");
-		var phoneNum = document.getElementById("phoneNum");
-		var emailNum = document.getElementById("emailNum");
-		var question = document.getElementById("question");
-		
-		//标题区
-		useridNumber.innerHTML = "#" + data.nick_id;  
-		useridPhone.innerHTML = data.phone;
-
-		if (data.logo.length != 0) {
-			userIcon.setAttribute("src", data.logo) 
-		}
-
-		if (data.nick.length != 0) {
-			useridName.innerHTML = data.nick;
-		} else if (data.nick.length == 0 && data.account.length != 0) {
-			useridName.innerHTML = data.account;
-		} 
-
-		//信息区
-		 if (data.real_name.length != 0) {
-		 	realName.innerHTML = data.real_name;
-		 } else {
-		 	realName.innerHTML = "未设置";
-		 }
-
-		if (data.phone.length != 0) {
-			phoneNum.innerHTML = data.phone;
-		} else {
-			phoneNum.innerHTML = "未设置";
-		}
-
-		if (data.email.length != 0) {
-			emailNum.innerHTML  = data.email;
-		} else {
-			emailNum.innerHTML = "未设置";
-		}
-
-		if (data.security_question != null) {
-			question.innerHTML = data.security_question;
-		} else {
-			question.innerHTML = "未设置";
-		}
-
-
+	if (data.nick.length != 0) {  //用户名
+	  useridName.innerHTML = data.nick;
+	} else if (data.nick.length == 0 && data.account.length != 0) {
+	  useridName.innerHTML = data.account;
+	} 
+	//信息区
+	if (data.real_name.length != 0) { //实名
+	  realName.innerHTML = data.real_name;
+	 } else {
+	  realName.innerHTML = "未设置";
 	}
-
+	if (data.phone.length != 0) { //手机号
+	  phoneNum.innerHTML = data.phone;
+	} else {
+	  phoneNum.innerHTML = "未设置";
+	}
+	if (data.email.length != 0) { //邮箱
+	  emailNum.innerHTML  = data.email;
+	} else {
+	  emailNum.innerHTML = "未设置";
+	}
+	if (data.security_question != null) { //密保
+	  question.innerHTML = data.security_question;
+	} else {
+	  question.innerHTML = "未设置";
+	}
+  }
 </script>
-
 </html>

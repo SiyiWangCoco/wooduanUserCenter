@@ -1,112 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>在线充值</title>
-	<link rel="stylesheet" type="text/css" href="../css/charge.css">
-	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <meta charset="utf-8">
+  <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>在线充值</title>
+  <link rel="stylesheet" type="text/css" href="../css/charge.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body onload="getInfo()">
-	<div class="structure">
-		<div class="header">
-			<div>
-				<a class="back"  href="./userInfo.html"></a>
-			</div>
-			<div class="titleName">
-				<h1> 在线充值 </h1>	
-				<div class="describe">请选择您要充值的游戏</div>	
-			</div>
-		</div>
-		
-		<div id="gameDataBox">
-
-			<div class="gameData" id="ssjjPhone">
-				<div class='dataRecord'>
-					<p class="gameTitle" id="game1">生死狙击手游	</p>
-					<p  class="chargeInfo"id="ads1">暑期充值优惠活动进行中...</p>
-								
-				</div>
-				<div class='dataValue'>
-
-					<button class="changing" onclick="charge(event)" >立即充值</button>
-				</div>
-			</div>
-
-			<div class="gameData" id="ssjj2">
-				<div class='dataRecord'>
-					<p class="gameTitle" id="game2">生死狙击2	</p>
-					<p  class="chargeInfo" id="ads2">预约礼包热卖中，99元送超级武器</p>			
-				</div>
-				<div class='dataValue' >
-						<button class="changing" onclick="charge(event)">立即充值</button>
-				</div>
-			</div>
-		
-			<div class="gameData" id="ssjj1">
-				<div class='dataRecord'>
-					<p class="gameTitle"  id="game3">生死狙击1	</p>
-					<p class="chargeInfo"  id="ads3">充值优惠礼包热卖中...</p>			
-				</div>
-				<div class='dataValue' >
-				
-					<button class="changing" onclick="charge(event)">立即充值</button>
-				</div>
-			</div>
-		</div>
-
-
+  <div class="structure">
+	<div class="header">
+	  <div>
+		<a class="back"  href="./userInfo.html"></a>
+	  </div>
+	  <div class="titleName">
+		<h1> 在线充值 </h1>	
+		<div class="describe">请选择您要充值的游戏</div>	
+	  </div>
 	</div>
+	<div id="gameDataBox">
+	  <div class="gameData" id="ssjjPhone">
+		<div class='dataRecord'>
+		  <p class="gameTitle" id="game1">生死狙击手游	</p>
+		  <p class="chargeInfo"id="ads1">暑期充值优惠活动进行中...</p>				
+		</div>
+		<div class='dataValue'>
+		  <button class="changing" onclick="charge(event)" >立即充值</button>
+		</div>
+	  </div>
+	  <div class="gameData" id="ssjj2">
+		<div class='dataRecord'>
+		  <p class="gameTitle" id="game2">生死狙击2	</p>
+		  <p class="chargeInfo" id="ads2">预约礼包热卖中，99元送超级武器</p>			
+		</div>
+		<div class='dataValue' >
+		  <button class="changing" onclick="charge(event)">立即充值</button>
+		</div>
+	  </div>
+	  <div class="gameData" id="ssjj1">
+		<div class='dataRecord'>
+		  <p class="gameTitle"  id="game3">生死狙击1	</p>
+		  <p class="chargeInfo"  id="ads3">充值优惠礼包热卖中...</p>			
+		</div>
+		<div class='dataValue' >
+		  <button class="changing" onclick="charge(event)">立即充值</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 </body>
 <script type="text/javascript">
-	function getInfo(){
-		 $.ajax({
-              type:'GET',
-              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
-              dataType:"json",
-              headers:{
-              	'Content-Type':'application/x-www-form-urlencoded'
-              },
+  function getInfo(){
+	$.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded'
+      },
+      success: function(res){
+        console.log(res.data); 
+        setInfo(res.data);
+      },
+      error: function() { 
+        alert("error");
+      } 
+    });
+  }
 
-              success:function(res){
-               console.log(res.data); 
-               setInfo(res.data);
-              },
+  function setInfo(data){
+	var game1 = document.getElementById("game1");
+	var game2 = document.getElementById("game2");
+	var game3 = document.getElementById("game3");
+	var ads1 = document.getElementById("ads1");
+	var ads2 = document.getElementById("ads2");
+	var ads3 = document.getElementById("ads3");
+	var ssjjPhone = document.getElementById("ssjjPhone");
 
-              error:function() { 
-                alert("error");
-             } 
-            });
+	game1.innerHTML = data.games[0].name.zh;
+	game2.innerHTML = data.games[1].name.zh;
+	game3.innerHTML = data.games[2].name.zh;
+	ads1.innerHTML = data.games[0].advertisement.zh;
+	ads2.innerHTML = data.games[1].advertisement.zh;
+	ads3.innerHTML = data.games[2].advertisement.zh;
+	game1.setAttribute("name",data.games[0].id);
+	game2.setAttribute("name",data.games[1].id);
+	game3.setAttribute("name",data.games[2].id);
+	ssjjPhone.style.background =  "url("+ data.games[0].logo +") no-repeat center center"; //图片缺失
 	}
 
-	function setInfo(data){
-		var game1 = document.getElementById("game1");
-		var game2 = document.getElementById("game2");
-		var game3 = document.getElementById("game3");
-		var ads1 = document.getElementById("ads1");
-		var ads2 = document.getElementById("ads2");
-		var ads3 = document.getElementById("ads3");
-		var ssjjPhone = document.getElementById("ssjjPhone");
-
-		game1.innerHTML = data.games[0].name.zh;
-		game2.innerHTML = data.games[1].name.zh;
-		game3.innerHTML = data.games[2].name.zh;
-		ads1.innerHTML = data.games[0].advertisement.zh;
-		ads2.innerHTML = data.games[1].advertisement.zh;
-		ads3.innerHTML = data.games[2].advertisement.zh;
-		game1.setAttribute("name",data.games[0].id);
-		game2.setAttribute("name",data.games[1].id);
-		game3.setAttribute("name",data.games[2].id);
-		ssjjPhone.style.background =  "url("+ data.games[0].logo +") no-repeat center center";
-	}
-
-	function charge(e) {
-		var curGame = e.target.parentElement.parentElement.firstElementChild.firstElementChild;
-		var storage = window.localStorage;
-		storage.gameId = curGame.getAttribute("name");
-		window.location.href = "/components/creditChooseServer.html";
-	}
-
-
+  function charge(e) { //储存选择游戏id跳转到对应服务器选择界面
+	var curGame = e.target.parentElement.parentElement.firstElementChild.firstElementChild;
+	var storage = window.localStorage;
+	storage.gameId = curGame.getAttribute("name");
+	window.location.href = "/components/creditChooseServer.html";
+  }
 </script>
 </html>

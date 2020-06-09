@@ -1,26 +1,23 @@
 @font-face {
-    font-family: PingFang;
-     src: url("font/PingFang.otf")
+  font-family: PingFang;
+  src: url("font/PingFang.otf");
 }
 
 body {
-  background: rgba(255,255,255,1) url(./../image/creditBackground2.png) no-repeat center 0px;
-  background-size: contain;
-  
-  margin: 0px;
-  width:100vw;
-  height:100vh; 
-  font-family: pingfang, serif;
-  font-weight: lighter;
-  letter-spacing:1px;
-
-
+background: rgba(255,255,255,1) url(./../image/creditBackground2.png) no-repeat center 0px;
+background-size: contain;
+margin: 0px;
+width:100vw;
+height:100vh; 
+font-family: pingfang, serif;
+font-weight: lighter;
+letter-spacing:1px;
 }
 
 .structure {
-    padding-top: 5%;
-    padding-left: 6vw;
-    padding-right: 6vw;
+  padding-top: 5%;
+  padding-left: 6vw;
+  padding-right: 6vw;
 }
 
 .header {
@@ -62,7 +59,6 @@ body {
   font-size: 4vw;
 }
 
-
 #creditPackageBoxes {
   color: rgb(255,255,255);
 }
@@ -96,12 +92,12 @@ body {
   font-size: 4vw;
 }
 
- .packageIntro{
+.packageIntro {
   opacity: 0.6;
   margin-top: 5px;
  }
 
- .packagePrice{
+.packagePrice {
   margin-top: 9px;
   color: #c72729;
   font-weight: bold;
@@ -124,11 +120,10 @@ body {
   margin-left: 1vw;
   margin-right: 1vw;
 }
+
 .serverR {
   margin-right: 1vw;
 }
-
-
 
 .creditPackageBox a {
   color: rgb(255,255,255);
