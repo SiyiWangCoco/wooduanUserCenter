@@ -58,7 +58,6 @@
 					if (isNaN(num) || num.toString().length != userid.value.length) { //输入为账号
 						type = 2;
 						account = userid.value;
-						return;
 					} else if (phoneReg.test(num)) { //输入为手机号
 						type = 1;
 						phone = num;
@@ -66,9 +65,7 @@
 						type = 2;
 						account = num;
 					}
-				
 				}
-	          
 			}	
 			loginSubmit();
 		}
@@ -83,7 +80,6 @@
 			    password:password
 			}
 		
-
 	        $.ajax({
 	                type:"POST",
 	                url: 'http://192.168.0.18:8015/web/basic/login',
@@ -91,10 +87,8 @@
 	                data:JSON.stringify(postData),
 	                contentType:'application/json',
 	                success:function(res){
-	                    window.alert("success")
-	                },
-	                error:function(res) {
-	                    if (res.code == 100001) {
+	                	console.log(res)
+	                     if (res.code == 100001) {
 	                    	alert("参数错误");
 	                    } else if( res.code == 420015) {
 	                    	alert("未知登录类型");
@@ -108,10 +102,18 @@
 	                    	alert("	获取用户信息异常");
 	                    }  else if( res.code == 420021) {
 	                    	alert("登录失败");
-	                    } 
+	                    } else if (res.code == 0) {} {
+	                    	alert("success");
+	                    	var storage=window.localStorage;
+	                    	storage.token=res.data.user_token;
+	                    	window.location.href = "/components/userInfo.html";
+	                    }
+	                },
+	                error:function(res) {
+	                   alert("error");
 	                }
 	            });
-	    }
+	    	}
      
     </script>
 </html>

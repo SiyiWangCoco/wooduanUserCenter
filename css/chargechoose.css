@@ -115,22 +115,20 @@ body {
 #serverBoxes button {
   background-color: #333333;
   color: rgb(255,255,255);
-  width: 48%;
+  width: 47%;
   height: 12vw;
   font-size: 4.2vw;
   margin-top: 1vw;
   margin-bottom: 1vw;
   border: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 .serverR {
   margin-right: 1vw;
 }
 
-#serverBoxes a {
-  text-decoration: none;
-}
+
 
 .creditPackageBox a {
   color: rgb(255,255,255);

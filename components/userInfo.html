@@ -5,8 +5,9 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>流水席</title>
 	<link rel="stylesheet" type="text/css" href="../css/user.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onLoad="getInfo()">
 	<div class="userStruc">
 		<div id="userHeader">
 			<div id="setButton">
@@ -43,7 +44,7 @@
 				<a class="underLine" href="./setIdentity.html">
 					<div class="details" >实名认证</div>
 					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo">江羿平</div>
+					<div class="detailInfo" id="realName">江羿平</div>
 				</a>
 				
 			</div>
@@ -52,7 +53,7 @@
 				<a class="underLine" href="./phoneConfirmed.html">
 					<div class="details">手机号码</div>
 					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo">15395172720</div>
+					<div class="detailInfo" id="phoneNum">15395172720</div>
 				</a>
 				
 			</div>
@@ -61,7 +62,7 @@
 				<a class="underLine" href="./emailConfirmed.html">
 					<div class="details">电子邮箱</div>
 					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo">jyp@wooduan.com</div>	
+					<div class="detailInfo" id="emailNum">jyp@wooduan.com</div>	
 				</a>
 			
 			</div>
@@ -70,7 +71,7 @@
 				<a class="underLine" href="./questionConfirmed.html">
 					<div class="details">密保问题</div>
 					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-					<div class="detailInfo">未设置</div>	
+					<div class="detailInfo" id="question">未设置</div>	
 				</a>
 				
 			</div>
@@ -120,14 +121,91 @@
 				<a class="underLine" href="./appeal.html">
 					<div class="details">账号申诉</div>
 					<div class="rightArrow"><img src="../image/rightArrow.png"></div>
-				</a>
-				
+				</a>	
 			</div>
 			<div class="whitleLink"></div>
 			<div class="whitleLink"></div>
 		</div>
-
-	</div>
-	
+	</div>	
 </body>
+<script type="text/javascript">
+	 let token = window.localStorage.token;
+	function getInfo(){
+		 $.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded', 
+              	'token' : token
+              },
+
+              success:function(res){
+               console.log(res.data); 
+               setInfo(res.data);
+              },
+
+              error:function() { 
+                alert("error");
+             } 
+            });
+	}
+
+
+	function setInfo(data){
+		//标题区
+		var userIcon = document.getElementById("userIcon");
+		var useridName = document.getElementById("useridName");
+		var useridNumber = document.getElementById("useridNumber");
+		var useridPhone = document.getElementById("useridPhone");
+		//信息区
+		var realName = document.getElementById("realName");
+		var phoneNum = document.getElementById("phoneNum");
+		var emailNum = document.getElementById("emailNum");
+		var question = document.getElementById("question");
+		
+		//标题区
+		useridNumber.innerHTML = "#" + data.nick_id;  
+		useridPhone.innerHTML = data.phone;
+
+		if (data.logo.length != 0) {
+			userIcon.setAttribute("src", data.logo) 
+		}
+
+		if (data.nick.length != 0) {
+			useridName.innerHTML = data.nick;
+		} else if (data.nick.length == 0 && data.account.length != 0) {
+			useridName.innerHTML = data.account;
+		} 
+
+		//信息区
+		 if (data.real_name.length != 0) {
+		 	realName.innerHTML = data.real_name;
+		 } else {
+		 	realName.innerHTML = "未设置";
+		 }
+
+		if (data.phone.length != 0) {
+			phoneNum.innerHTML = data.phone;
+		} else {
+			phoneNum.innerHTML = "未设置";
+		}
+
+		if (data.email.length != 0) {
+			emailNum.innerHTML  = data.email;
+		} else {
+			emailNum.innerHTML = "未设置";
+		}
+
+		if (data.security_question != null) {
+			question.innerHTML = data.security_question;
+		} else {
+			question.innerHTML = "未设置";
+		}
+
+
+	}
+
+</script>
+
 </html>

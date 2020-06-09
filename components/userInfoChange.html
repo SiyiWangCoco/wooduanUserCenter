@@ -5,8 +5,9 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>流水席</title>
 	<link rel="stylesheet" type="text/css" href="../css/user.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onLoad="getInfo()">
 	<div class="background">
 		<div class="userStruc">
 			<div>
@@ -26,28 +27,31 @@
 				</div>
 				<div class="whitleLine">
 					<div class="details2">昵称</div>
-					<input type="text" class="rightArrow" placeholder="流水席"> 
+					<input type="text" class="rightArrow" placeholder="流水席" id="nickName"> 
 				</div>
 				<div class="whitleLine">
 					<div class="details2">性别</div>
-					<select class="rightArrow">
+					<select class="rightArrow" id="sex">
 						<option selected="selected">男</option>
 						<option>女</option>
 					</select>
 				</div>
 				<div class="whitleLine">
 					<div class="details2">生日</div>
-					<select class="rightArrow" id="birthday">
-						<option selected="selected">未设置</option>
-						<option>女</option>
-					</select>
+					<button class="rightArrow" style="display: block;" onclick="setBirth()" id="noBirth"> 未设置 </button>
+					<div class="rightArrow" id="birthday" style="display: none;"> 
+					
+						<div>日</div> 
+						<select id="day"></select>
+						<div>月</div>
+						<select id="month" onchange="setDay()"></select>
+						<div>年</div>
+						<select id="year" onchange="setDay()" ></select>
+					</div>
 				</div>
 				<div class="whitleLine">
 					<div class="details2">所在地区</div>
-					<select class="rightArrow" id="area">
-						<option selected="selected">未填写</option>
-						<option>女</option>
-					</select>
+					<input type="text" class="rightArrow" placeholder="未填写"> 
 				</div>
 				<div id="submitBox">
 					<button id="submit"> 提交</button>
@@ -58,4 +62,134 @@
 	</div>
 
 </body>
+
+<script type="text/javascript">
+
+	function setBirth() {
+		var noBirth = document.getElementById("noBirth");
+		var birthday =  document.getElementById("birthday");
+		var year = document.getElementById("year");
+		var month = document.getElementById("month");
+		noBirth.style.display = "none";
+		birthday.style.display = "block";
+
+		let date = new Date();
+		let curYear = date.getFullYear();
+		for (let i = curYear; i >= curYear-100; i--) {
+			let yearOption = document.createElement("option");
+			yearOption.innerHTML = i;
+			yearOption.value = i;
+			year.appendChild(yearOption);
+		}
+
+		for (let i = 1; i <=12; i++) {
+			let monthOption = document.createElement("option");
+			monthOption.innerHTML = i;
+			monthOption.value = i;
+			month.appendChild(monthOption);
+		}
+
+		setDay();
+	}
+
+	function  setDay(){
+		var year = document.getElementById("year");
+		var month = document.getElementById("month");
+		var day = document.getElementById("day");
+		let days;
+		if (month.value == 1 || month.value == 3 || month.value == 5 || month.value == 7 || month.value == 8 || month.value == 10 || month.value == 12) { //大月
+			days = 31;
+		} else if (month.value == 4 || month.value == 6 || month.value == 9 || month.value == 11) {
+			days = 30;
+		} else { //二月
+			if ( (year.value % 4 == 0 && year.value % 100 != 0) || year.value % 400 == 0) { //闰年
+				days = 29;
+			} else {
+				days = 28;
+			}
+		}
+		day.innerHTML = '';
+		for (let i = 1; i <=days; i++) {
+			let dayOption = document.createElement("option");
+			dayOption.innerHTML = i;
+			dayOption.value = i;
+
+			day.appendChild(dayOption);
+		}
+	}
+
+	 let token = document.cookie.split(";")[0];
+	 //let token = "eyJhbGciOiJzaGEyNTYiLCJ0eXBlIjoiand0In0=.eyJhcHBfa2V5IjoiQTAwMDEiLCJhcHBfaWQiOjEsImV4cGlyZSI6MTU5MTEwNDQxMywidHlwZSI6InVzZXJfdG9rZW4iLCJpcCI6IjEyNy4wLjAuMSIsInVzZXIiOnsiaWQiOjYsIndkX2lkIjoid2RfMjAxOTEwMjUiLCJhY2NvdW50IjoieHd6In19.a59e282b7f3f84dab91c9aa3a35e70fc38b54f55aad33df1479e908b3bbadeb8";
+	function getInfo(){
+		 $.ajax({
+
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded', 
+              	'token' : token
+              },
+
+              success:function(res){
+               console.log(res.data); 
+               setInfo(res.data);
+              },
+
+              error:function() { 
+                alert("error");
+             } 
+            });
+	}
+
+
+
+	function setInfo(data){
+		//标题区
+		var userName = document.getElementById("userName");
+		var userNumber = document.getElementById("userNumber");
+		//信息区	
+		var peopleFill = document.getElementById("peopleFill");
+		var nickName = document.getElementById("nickName");
+		var year = document.getElementById("year");
+		var month = document.getElementById("month");
+		var day = document.getElementById("day");
+		//标题区
+		userNumber.innerHTML = "#" + data.nick_id;  
+
+		if (data.nick.length != 0) {
+			userName.innerHTML = data.nick;
+		} else if (data.nick.length == 0 && data.account.length != 0) {
+			userName.innerHTML = data.account;
+		} 
+
+		//信息区
+		if (data.logo.length != 0) {
+			peopleFill.setAttribute("src", data.logo);
+		}
+
+		if (data.nick.length != 0) {
+			nickName.setAttribute("placeholder", data.nick);
+		} else if (data.account.length != 0) {
+			nickName.setAttribute("placeholder", data.account);
+		} else {
+			nickName.setAttribute("placeholder", "未设置");
+		}
+
+		if (data.birthday.length != 0) {
+			var date = data.birthday.split("-");			
+			setBirth();
+			year.value = date[0];
+			month.value = date[1];
+			day.value = date[2];
+		}
+
+
+	}
+
+</script>
+
+
+
+
 </html>

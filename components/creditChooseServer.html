@@ -5,16 +5,17 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>游戏区服</title>
 	<link rel="stylesheet" type="text/css" href="../css/chargeChoose.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo()">
 	<div class="structure">
 		<div class="header">
 			<div>
 				<a class="back"  href="./creditCharge.html"></a>
 			</div>
 			<div class="titleName">
-				<h1> 生死狙击1 </h1>	
-				<div class="describe">充值优惠热卖中，99元充传奇武器...</div>	
+				<h1 id="gameName"> 生死狙击1 </h1>	
+				<div class="describe" id="gameAds">充值优惠热卖中，99元充传奇武器...</div>	
 			</div>
 		</div>
 		<div class="header" id="chargeHeader">
@@ -36,4 +37,62 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	let gameId = window.localStorage.gameId;
+	function getInfo(){
+		 $.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded'
+              },
+
+              success:function(res){
+               console.log(res.data); 
+               setInfo(res.data);
+              },
+
+              error:function() { 
+                alert("error");
+             } 
+            });
+	}
+
+	function setInfo(data) {
+		var gameName = document.getElementById("gameName");
+		var gameAds = document.getElementById("gameAds"); 
+		var serverBoxes = document.getElementById("serverBoxes");
+		serverBoxes.innerHTML = '';
+		for (let i = 0; i < data.games.length; i++) {
+			if (data.games[i].id == gameId) {
+				gameName.innerHTML = data.games[i].name.zh;
+				gameAds.innerHTML = data.games[i].advertisement.zh;
+				for (let j = 0; j < data.games[i].regions.length; j++) {
+					setServer(data.games[i].regions[j]);
+				}
+			}	
+		}
+
+	}
+
+	function setServer(data){
+		var serverBoxes = document.getElementById("serverBoxes");
+		let serverBtn = document.createElement("button");
+		serverBtn.id = data.id;
+		serverBtn.setAttribute("onclick","pay(event)");
+		serverBtn.innerHTML = data.name;
+		if (serverBoxes.length % 2 != 0) {
+			serverBtn.class = "serverR";
+		}
+		serverBoxes.appendChild(serverBtn);
+	}
+
+
+	function pay(e){
+		var storage = window.localStorage;
+		storage.regionId = e.target.id;
+		window.location.href = "/components/creditPackage.html";
+	}
+</script>
 </html>

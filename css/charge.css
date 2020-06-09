@@ -88,7 +88,7 @@ body {
 	float: right;
 }
 
-#changing {
+.changing {
   background-color:  #c72729;
   border-radius: 2px;
   width: 28vw;
@@ -131,14 +131,14 @@ body {
 	
 	font-size: 3.5vw;
 	color: rgb(255,255,255);
-	width: 20vw;
+	width: 28vw;
 	height: 5vw;
 	margin: 0px;
 	border: 0px;
 	appearance:none;
     -moz-appearance:none;
     -webkit-appearance:none;
- 
+    outline: none;
 	background: transparent url(./../image/selectArrowWhite.png) no-repeat;
 	background-size: 12%;
 	background-position: 85% 50%;

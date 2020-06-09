@@ -5,8 +5,9 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>充值记录</title>
 	<link rel="stylesheet" type="text/css" href="../css/credit.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getChargeData()">
 	<div class="structure">
 		<div class="header">
 			<div>
@@ -78,6 +79,7 @@
 
 		<script type="text/javascript">
 
+			//自定义下拉框
 			function recordTime() {
 				var recordGameList=document.getElementById("recordGameList");
 				var cover = document.getElementById("cover");
@@ -134,8 +136,7 @@
 					var btns = document.getElementsByClassName("subGameBtn");
 					for (var i = 0; i < btns.length; i++) {
 						btns[i].style.backgroundColor = '#333333';
-					}
-					
+					}	
 				if(e.target.id =="allGame"){
 		     		cur.value = "全部游戏";
 		     		document.getElementById("allGame").style.backgroundColor = '#c72729';
@@ -152,9 +153,34 @@
 		   		recordGame();
 		   	}
 
+
+
+		   	//接口数据
+		   	function getChargeData(){
+		     $.ajax({
+		              headers: {
+		                "Authorization":localStorage.getItem("token")
+		              },
+		              type:'GET',
+		              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+		              contentType:'application/x-www-form-urlencoded', 
+		              dataType:"json",
+		              success:function(res){
+		               //SetInfo(res.data);
+		               console.log(res.data);
+
+		              },
+		              error:function() { 
+		                alert("请求失败！");
+		             } 
+		            });
+		  }
+
+
 				
 		</script>
 			
 	</div>
 </body>
 </html>
+

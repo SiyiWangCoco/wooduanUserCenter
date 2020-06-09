@@ -259,19 +259,17 @@ body {
 
   height:8vw;
   border: 0px;
-  font-size: 4vw;
   float: right;
   background: transparent;
-  text-align: center;
   appearance:none;
   -moz-appearance:none;
   -webkit-appearance:none;
   outline: none;
-  width: 17vw;
 }
  
 #birthday {
   opacity: 0.3;
+  letter-spacing: 0px;
 }
 
 #area {
@@ -297,4 +295,17 @@ body {
   letter-spacing: 1vw;
   text-align: center;
   margin-left: 1.8vw;
+}
+
+
+
+#birthday select {
+  display: inline-block;
+  float: right;
+}
+
+
+#birthday div {
+  display: inline-block;
+  float: right;
 }

@@ -5,8 +5,9 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>在线充值</title>
 	<link rel="stylesheet" type="text/css" href="../css/charge.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo()">
 	<div class="structure">
 		<div class="header">
 			<div>
@@ -25,7 +26,7 @@
 					充值账号：
 				</div>
 				<div class="confirmInfo">
-					hugcolin@163.com
+					<span id="account">hugcolin@163.com</span>
 				</div>
 			</div>
 			<div class="greyLine">
@@ -33,7 +34,7 @@
 					游戏区服：
 				</div>
 				<div class="confirmInfo">
-					生死狙击2-电信一区
+					<span id="gameName">生死狙击2</span>-<span id="gameRe">电信一区</span>
 				</div>
 			</div>
 			<div class="blackLine">
@@ -41,7 +42,7 @@
 					充值礼包：
 				</div>
 				<div class="confirmInfo">
-					金币礼包(99金币)
+					金币礼包(<span id="gamePackage">99</span>金币)
 				</div>
 			</div>
 			<div class="greyLine">
@@ -49,7 +50,7 @@
 					需支付金额：
 				</div>
 				<div class="confirmInfo">
-					99元
+				 	<span id="gameMoney">99</span> 元
 				</div>
 			</div>
 			<div class="blackLine">
@@ -57,15 +58,111 @@
 					支付方式：
 				</div>
 				<div class="confirmInfo">
-					<select>
+					<select id="paySele">
 						<option selected="selected">支付宝</option>
 						<option>微信</option>
 					</select>
 				</div>
 			</div>
-			<button id="pay">立即支付</button>
-		</div>
-		
+			<button id="pay" onclick="pay()">立即支付</button>
+		</div>	
 	</div>
 </body>
+<script type="text/javascript">
+	let gameId = window.localStorage.gameId;
+	let regionId = window.localStorage.regionId;
+	let token = window.localStorage.token;
+    let value = window.localStorage.value;
+    let ratio = window.localStorage.ratio;
+	function getInfo(){
+		$.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded'
+              },
+              success:function(res){
+               console.log(res.data); 
+               gameInfo(res.data);
+              },
+              error:function() { 
+                alert("error");
+             } 
+            });
+
+		$.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/index/getUserBasicInfo',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded', 
+              	'token' : token
+              },
+
+              success:function(res){
+               console.log(res.data); 
+               userInfo(res.data);
+              },
+
+              error:function() { 
+                alert("error");
+             } 
+            });
+
+	}
+
+	function userInfo(data) {
+		var account = document.getElementById("account");
+
+		if (data.account.length != 0) {
+			account.innerHTML = data.account;
+		} else if (data.email.length != 0) {
+			account.innerHTML = data.email;
+		} else if (data.phone.length != 0) {
+			account.innerHTML = data.phone;
+		} else {
+			alert("error");
+		}
+
+
+	}
+
+	function gameInfo(data) {
+		var gameName = document.getElementById("gameName");
+		var gameRe = document.getElementById("gameRe");
+        
+        var gamePackage = document.getElementById("gamePackage"); // package 礼包
+        var gameMoney = document.getElementById("gameMoney");
+        gamePackage.innerHTML = value;
+        gameMoney.innerHTML = value * ratio * 0.1;
+		
+		for (let i = 0; i < data.games.length; i++) {  //region
+			if (data.games[i].id == gameId) {
+				gameName.innerHTML = data.games[i].name.zh;
+				for (let j = 0; j < data.games[i].regions.length; j++) { 
+					if (data.games[i].regions[j].id == regionId) {
+						gameRe.innerHTML = data.games[i].regions[j].name; 
+					}		
+				}
+			}	
+		}
+
+		paySele = document.getElementById("paySele");
+		paySele.innerHTML = "";
+		for (let k = 0; k < data.payments.length; k++) {        // 支付方式
+			let payOption = document.createElement("option");
+			payOption.innerHTML =  data.payments[k].name;
+			payOption.id = data.payments[k].id;
+			payOption.value = data.payments[k].id;
+			paySele.appendChild(payOption);
+		}
+
+	}
+
+    function pay(){
+        alert("success");
+        window.location.href  = "/components/userInfo.html";
+    }
+</script>
 </html>

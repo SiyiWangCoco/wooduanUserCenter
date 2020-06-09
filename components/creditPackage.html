@@ -4,17 +4,18 @@
 	<meta charset="utf-8">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>充值礼包</title>
-	<link rel="stylesheet" type="text/css" href="../css/chargeChoose.css">
+	<link rel="stylesheet" type="text/css" href="../css/chargeChoose.css">\
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo()">
 	<div class="structure">
 		<div class="header">
 			<div>
 				<a class="back"  href="./creditChooseServer.html"></a>
 			</div>
 			<div class="titleName">
-				<h1> 生死狙击1 </h1>	
-				<div class="describe">电信一区</div>	
+				<h1 id="gameName"> 生死狙击1 </h1>	
+				<div class="describe" id="gameRe">电信一区</div>	
 			</div>
 		</div>
 		<div class="header" id="chargeHeader">
@@ -26,16 +27,16 @@
 		
 		<div id="creditPackageBoxes">
 			<div class="creditPackageBox">
-				<a  href="./creditChargeConfirm.html">
-				<div>
-					<img src="../image/creditPackage1.png">
-				</div>
-				<div class="packageInfo">
-					<p class="packageName">金币礼包(99金币)</p>
-					<p  class="packageIntro">充90金币送9金币</p>
-					<p class="packagePrice">￥ 9.00</p>
-				</div>
-			</a>
+				<a  href="./creditChargeConfirm.html" onclick="choosePackage(event)">
+					<div>
+						<img src="../image/creditPackage1.png">
+					</div>
+					<div class="packageInfo">
+						<p class="packageName">金币礼包(99金币)</p>
+						<p  class="packageIntro">充90金币送9金币</p>
+						<p class="packagePrice">￥ 99.00</p>
+					</div>
+				</a>
 			</div>
 			<div class="creditPackageBox">
 				<div>
@@ -59,10 +60,118 @@
 					<p class="packagePrice">￥ 388.00</p>
 				</div>
 			</div>
-			
 		</div>
-	
-
 	</div>
 </body>
+<script type="text/javascript">
+	let gameId = window.localStorage.gameId;
+	let regionId = window.localStorage.regionId;
+	function getInfo(){
+		 $.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded'
+              },
+              success:function(res){
+               console.log(res.data); 
+               setInfo(res.data);
+              },
+              error:function() { 
+                alert("error");
+             } 
+            });
+	}
+
+	function setInfo(data) {
+		var gameName = document.getElementById("gameName");
+		var gameRe = document.getElementById("gameRe");
+
+		
+		for (let i = 0; i < data.games.length; i++) {
+			if (data.games[i].id == gameId) {
+				gameName.innerHTML = data.games[i].name.zh;
+				for (let j = 0; j < data.games[i].regions.length; j++) {
+					if (data.games[i].regions[j].id == regionId) { // regions
+						gameRe.innerHTML = data.games[i].regions[j].name; 
+					}		
+				}
+				var creditPackageBoxes = document.getElementById("creditPackageBoxes");
+				creditPackageBoxes.innerHTML = "";
+				for (let k = 0; k < data.games[i].pay_configs.default_golds.length; k++) { // defult golds
+					setCreditPackage(data.games[i].pay_configs.default_golds[k],data.games[i].pay_configs.zh.ratio,k);
+
+				}
+			}	
+		}
+	}
+
+	function setCreditPackage(value,ratio,k){
+		var creditPackageBoxes = document.getElementById("creditPackageBoxes");
+
+		let div = document.createElement("div"); //外框
+		let a = document.createElement("a");  //链接
+		div.className = "creditPackageBox"
+		a.setAttribute("href", "./creditChargeConfirm.html");
+		a.setAttribute("onclick", "choosePackage(event)");
+		div.appendChild(a);	
+
+		let div2 = document.createElement("div");  //左图
+		let img = document.createElement("img");
+		let gift = 0;
+		if (k == 0) {
+			img.setAttribute("src", "../image/creditPackage1.png");
+		} else if (k == 1 || k == 2) {
+			gift = value * 0.1;
+			img.setAttribute("src", "../image/creditPackage2.png");
+		} else {
+			gift = parseInt(value * 0.15);
+			img.setAttribute("src", "../image/creditPackage3.png");
+		}
+		div2.appendChild(img);
+
+		let div3 = document.createElement("div") // 右信息
+		let p1 = document.createElement("p");
+		let p2 = document.createElement("p");
+		let p3 = document.createElement("p");
+		div3.className = "packageInfo";
+		p1.className = "packageName";	
+		p1.id = value;
+		p1.innerHTML = "金币礼包(" + value + "金币)";
+		p2.className = "packageIntro";
+		p2.innerHTML = "充" + value + "金币送" + gift + "金币";
+		p2.id = gift;
+		p3.className = "packagePrice";
+		p3.innerHTML = "￥" + value * ratio * 0.1;
+		p3.id = ratio;
+
+		div3.appendChild(p1);
+		div3.appendChild(p2);
+		div3.appendChild(p3);
+
+		a.appendChild(div2);
+		a.appendChild(div3);
+		creditPackageBoxes.appendChild(div);
+	}
+
+	function choosePackage(e){
+		let storage = window.localStorage;
+		if(e.target.tagName == "P"){
+			storage.value = e.target.parentElement.firstElementChild.id;
+			storage.gift = e.target.parentElement.firstElementChild.nextSibling.id;
+			storage.ratio = e.target.parentElement.lastElementChild.id;
+		} else if (e.target.tagName == "DIV") {
+			storage.value = e.target.firstElementChild.id;
+			storage.gift = e.target.firstElementChild.nextSibling.id;
+			storage.ratio = e.target.lastElementChild.id;
+		} else if (e.target.tagName == "IMG") {
+			storage.value = e.target.parentElement.parentElement.lastElementChild.firstElementChild.id;
+		storage.gift = e.target.parentElement.parentElement.lastElementChild.firstElementChild.nextSibling.id;
+		storage.ratio = e.target.parentElement.parentElement.lastElementChild.lastElementChild.id;
+		}
+	}
+
+</script>
+	
 </html>

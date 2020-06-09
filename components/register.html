@@ -5,8 +5,9 @@
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>注册</title>
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo()">
 	<div class="structure">
 		<div>
 			<h1 class="header">注册</h1>
@@ -16,16 +17,151 @@
 			<input type="text" class="userInput" id="userid" placeholder="请输入账号/邮箱/手机号码">
 			<div class="verification">
 				<input type="text"  class="userInput" id="verificationText" placeholder="请输入验证码">
-				<img id="verificationCode" src="../image/verificationCode.png" onclick="">
+				<img id="verificationCode" src="../image/verificationCode.png" onclick="refreshImageCode()">
 			</div>
 			
-			<input type="text"  class="userInput" id="password" placeholder="请输入您的密码">
-			<input type="text"  class="userInput" id="passwordAgain" placeholder="请再次输入您的密码">
-			<input type="button" class="submitButton" id="registerButton" value="立即注册" >
+			<input type="password"  class="userInput" id="password" placeholder="请输入您的密码">
+			<input type="password"  class="userInput" id="passwordAgain" placeholder="请再次输入您的密码">
+			<input type="button" class="submitButton" id="registerButton" value="立即注册" onclick="register()" >
 		</div>
 		<div class="otherFunc" id="loginPageBox">
 			<a href="./login.html" id="loginPage">已有账号？立即登录</a>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+		let account, password, confirm_password, phone, email, code;
+		let data;
+		function getInfo(){
+		  $.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded'
+              },
+              success:function(res){
+               console.log(res.data); 
+               data = res.data;
+              },
+              error:function() { 
+                alert("error");
+             } 
+            });
+
+  		  refreshImageCode();
+        
+	}
+
+		function register()  {
+			var userid = document.getElementById('userid');
+			var passwordNum = document.getElementById("password");
+			var passwordNumAgain = document.getElementById("passwordAgain");
+			var verificationText = document.getElementById("verificationText");
+
+			if (userid.value.length == 0) { // 未输入账号
+				 alert("请输入账号/邮箱/手机号码");
+				 return;
+			} else if (passwordNum.value.length == 0) { //未输入密码
+				alert("请输入您的密码");
+				return;
+			} else if (passwordNumAgain.value.length == 0) { //未再次输入密码
+				alert("请再次输入您的密码");
+				return;
+			} else if (verificationText.value.length == 0) { //未输入验证码
+				alert("请输入验证码");
+				return;
+			} else if (passwordNumAgain.value != passwordNum.value) { //密码不一致
+				alert("再次输入密码不一致请重新输入您的密码");
+				return;
+			} else {
+
+				var regLetter = /[A-Za-z]/;
+				var regNum = /[0-9]/;
+				var regTeShu =new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？+-]");
+				 if (passwordNum.value.length < 6 || passwordNum.value.length > 16) { //密码位数不对
+					alert("您设置的密码应在6-16位");
+					return;
+				} else if ((regLetter.test(passwordNum.value)== false)&& (regNum.test(passwordNum.value == false))) { //至少包含一个数字或字母
+					alert("您设置的密码应至少包含一个数字或字母");
+					return;
+				} else if (regTeShu.test(passwordNum.value)) { //不包含特殊字符
+					alert("您设置的密码应不包含特殊字符");
+					return;
+				}
+
+				password = passwordNum.value;
+				confirm_password = passwordNumAgain.value;
+				code = verificationText;
+			
+				if (data.base_configs.reg_config.phone == 0 && data.base_configs.reg_config.email == 0) { //手机邮箱不显示
+					account = userid.value;
+				} else if (data.base_configs.reg_config.phone != 0) { //手机显示
+					phone = userid.value;
+				} else if (data.base_configs.reg_config.email != 0) { //邮箱显示
+					email = userid.value;
+				}
+	          
+			}	
+			registerSubmit();
+		}
+
+		function registerSubmit(){
+
+		 	let postData = {
+			    account: account,
+			    password: password,
+			    confirm_password: confirm_password,
+			    phone: phone,
+			    email: email,
+			    code: code
+			}
+		
+	        $.ajax({
+	                type:"POST",
+	                url: 'http://192.168.0.18:8015/web/basic/reg',
+	                dataType:"json",
+	                data:JSON.stringify(postData),
+	                contentType:'application/json',
+	                success:function(res){
+	                	console.log(res)
+	                     if (res.code == 10001) {
+	                    	alert("参数错误");
+	                    } else if( res.code == 100004) {
+	                    	alert("验证码错误");
+	                    }  else if( res.code == 420033) {
+	                    	alert("账号已注册");
+	                    }  else if( res.code == 420036) {
+	                    	alert("手机号已注册");
+	                    } else if (res.code == 0) {
+	                    	alert("success");
+	                    	window.rocation.href = "/components/login.html";
+	                    }
+	                },
+	                error:function(res) {
+	                   alert("error");
+	                }
+	            });
+	    	}
+
+	    function refreshImageCode(){
+	    	 $.ajax({
+              type:'GET',
+              url:' http://192.168.0.18:8015/VerificationCode/img',
+              dataType:"json",
+              headers:{
+              	'Content-Type':'application/x-www-form-urlencoded'
+              },
+              success:function(res){
+               console.log(res.data); 
+  			   
+              },
+              error:function() { 
+                alert("error");
+             } 
+            });
+	    }
+	    	
+
+</script>
 </html>
