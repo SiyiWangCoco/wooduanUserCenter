@@ -5,8 +5,9 @@
   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <title>密保问题</title>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo('question')">
   <div class="loginBackground">
     <div class="structure2">
       <div>
@@ -17,7 +18,7 @@
       </div>
       <div class="textDescribe">
         你已设置过密保问题，当您忘记密码时，可以适应密保问题和答案找回密码。
-        <br>您的密保问题： <span class="important">您就读的高中学校名称？</span>
+        <br>您的密保问题： <span class="important" id="chooseQuestion">您就读的高中学校名称？</span>
       </div>  
       <div class="inputBoxes">
         <a  href="./setQuestion.html">
@@ -28,3 +29,4 @@
   </div>
 </body>
 </html>
+<script type="text/javascript" src="js/userData.js"></script>

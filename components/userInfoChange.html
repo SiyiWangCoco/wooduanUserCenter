@@ -159,7 +159,7 @@
 	} else {
 	  nickName.setAttribute("placeholder", "未设置");
 	}
-	if (data.birthday.length != 0) { //生日
+	if (data.birthday != null) { //生日
 	  var date = data.birthday.split("-");			
 	  setBirth();
 	  year.value = date[0];

@@ -38,7 +38,7 @@
 	  </div>
 	  <div class="whitleLink">
 		<div class="detailIconss"><img src="../image/identityColoredIcon.png"></div>
-		<a class="underLine" href="./setIdentity.html">
+		<a class="underLine" id="identityHref">
 		  <div class="details" >实名认证</div>
 		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
 		  <div class="detailInfo" id="realName">江羿平</div>
@@ -46,7 +46,7 @@
 	  </div>
 	  <div class="whitleLink">
 		<div class="detailIcons"><img src="../image/phoneColoredIcon.png"></div>
-		<a class="underLine" href="./phoneConfirmed.html">
+		<a class="underLine" id="phoneHref">
 		  <div class="details">手机号码</div>
 		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
 		  <div class="detailInfo" id="phoneNum">15395172720</div>
@@ -54,7 +54,7 @@
 	  </div>
 	  <div class="whitleLink">
 		<div class="detailIconss"><img src="../image/emailColoredIcon.png"></div>
-		<a class="underLine" href="./emailConfirmed.html">
+		<a class="underLine" id="emailHref">
 		  <div class="details">电子邮箱</div>
 		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
 		  <div class="detailInfo" id="emailNum">jyp@wooduan.com</div>	
@@ -62,7 +62,7 @@
 	  </div>
 	  <div class="whitleLink">
 		<div class="detailIcons"><img src="../image/questionColoredIcon.png"></div>
-		<a class="underLine" href="./questionConfirmed.html">
+		<a class="underLine" id="questionHref">
 		  <div class="details">密保问题</div>
 		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
 		  <div class="detailInfo" id="question">未设置</div>	
@@ -116,7 +116,7 @@
   </div>	
 </body>
 <script type="text/javascript">
-  let token = window.localStorage.token;
+  let token =" eyJhbGciOiJzaGEyNTYiLCJ0eXBlIjoiand0In0=.eyJhcHBfa2V5IjoiQTAwMDEiLCJhcHBfaWQiOjEsImV4cGlyZSI6MTU5MTEwNDQxMywidHlwZSI6InVzZXJfdG9rZW4iLCJpcCI6IjEyNy4wLjAuMSIsInVzZXIiOnsiaWQiOjYsIndkX2lkIjoid2RfMjAxOTEwMjUiLCJhY2NvdW50IjoieHd6In19.a59e282b7f3f84dab91c9aa3a35e70fc38b54f55aad33df1479e908b3bbadeb8";
   function getInfo(){
     $.ajax({
       type:'GET',
@@ -147,6 +147,11 @@
 	var phoneNum = document.getElementById("phoneNum");
 	var emailNum = document.getElementById("emailNum");
 	var question = document.getElementById("question");	
+	//信息链接
+	var identityHref = document.getElementById("identityHref");
+	var phoneHref =document.getElementById("phoneHref");
+	var emailHref = document.getElementById("emailHref");
+	var questionHref = document.getElementById("questionHref");
 	//标题区
 	useridNumber.innerHTML = "#" + data.nick_id;  //id
 	useridPhone.innerHTML = data.phone; //手机号
@@ -161,23 +166,31 @@
 	//信息区
 	if (data.real_name.length != 0) { //实名
 	  realName.innerHTML = data.real_name;
+	  identityHref.setAttribute("href","./identityConfirmed.html");
 	 } else {
 	  realName.innerHTML = "未设置";
+	  identityHref.setAttribute("href","./setIdentity.html");
 	}
 	if (data.phone.length != 0) { //手机号
 	  phoneNum.innerHTML = data.phone;
+	  phoneHref.setAttribute("href","./phoneConfirmed.html");
 	} else {
 	  phoneNum.innerHTML = "未设置";
+	  phoneHref.setAttribute("href","./setPhone.html");
 	}
 	if (data.email.length != 0) { //邮箱
 	  emailNum.innerHTML  = data.email;
+	  emailHref.setAttribute("href","./emailConfirmed.html");
 	} else {
 	  emailNum.innerHTML = "未设置";
+	  emailHref.setAttribute("href","./setEmail.html");
 	}
 	if (data.security_question != null) { //密保
 	  question.innerHTML = data.security_question;
+	  questionHref.setAttribute("href", "./questionConfirmed.html");
 	} else {
 	  question.innerHTML = "未设置";
+	  questionHref.setAttribute("href","./setQuestion.html");
 	}
   }
 </script>

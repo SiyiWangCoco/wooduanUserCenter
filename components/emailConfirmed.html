@@ -5,8 +5,9 @@
   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <title>电子邮箱</title>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo('email')">
   <div class="loginBackground">
     <div class="structure2">
       <div>
@@ -17,7 +18,7 @@
       </div>
       <div class="textDescribe">
         您的邮箱已经绑定成功，您可以使用邮箱登录或在忘记密码时使用邮箱找回您的密码
-        <br> 您的电子邮箱：<span class="important">jyp@wooduan.com</span>
+        <br> 您的电子邮箱：<span class="important" id="emailNum">jyp@wooduan.com</span>
       </div>
       <div class="inputBoxes" >
         <input type="button" class="submitButton" id="setPhoneButton" value="解除绑定" onclick="cancelWarning()">
@@ -51,3 +52,4 @@
   }
 </script>
 </html>
+<script type="text/javascript" src="js/userData.js"></script>
