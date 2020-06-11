@@ -13,8 +13,12 @@ function getInfo(info){
     success:function(res) { 
       if (info == "email") {
         getEmail(res.data);
+      }  else if (info == "changeE") {
+        oldEmailNum(res.data);
       } else if (info == "phone") {
-        gotPhone(res.data);
+        getPhone(res.data);
+      } else if (info == "changeP") {
+        oldPhoneNum(res.data);
       } else if (info == "question") {
         getQuestion(res.data);
       } else if (info == "identity") {
@@ -54,6 +58,12 @@ function getPhone(data){
   }
 }
 
+// 解绑原手机号码
+function oldPhoneNum(data){
+  var oldPhone = document.getElementById("oldPhone");
+   oldPhone.setAttribute("placeholder", data.phone);
+}
+
 //用户已设置的电子邮箱
 function getEmail(data) {
   var emailNum = document.getElementById("emailNum");
@@ -66,18 +76,24 @@ function getEmail(data) {
   } 
 }
 
+// 解绑原电子邮箱
+function oldEmailNum(data){
+  var oldEmail = document.getElementById("oldEmail");
+   oldEmail.setAttribute("placeholder", data.email);
+}
+
 //用户实名认证姓名和身份证号码
 function getIdentity(data) {
   var identityName = document.getElementById("identityName");
-  var identityNum = document.getElementById("identityNum");
+  var identityNumb = document.getElementById("identityNumb");
   identityName.innerHTML = "";
-  identityNum.innerHTML = "";
+  identityNumb.innerHTML = "";
   if (data.real_name.length == 0 || data.card_id.length == 0) {
     alert("您还没实名认证");
     window.location.href = "/components/setIdentity.html"
   } else {
     identityName.innerHTML = data.real_name;
-    identityNum.innerHTML =data.card_id;
+    identityNumb.innerHTML =data.card_id;
   }
 }
 

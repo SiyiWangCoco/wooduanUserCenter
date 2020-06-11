@@ -5,8 +5,9 @@
   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <title>电子邮箱</title>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo('changeE')">
   <div class="loginBackground">
     <div class="structure2">
       <div>
@@ -21,16 +22,14 @@
         <input type="text" class="userInput" id="oldEmail" placeholder="jyp@wooduan.com">
         <div class="verification">
           <input type="text"  class="userInput"  id="verificationEnter" placeholder="邮箱验证码">
-          <input type="button" id="verificationSend" value="发送验证码">
+          <input type="button" id="verificationSend" value="发送验证码" onclick="getEmail('unbind')">
           <div class="verticleLine"></div>
         </div>
         <div class="verification">
           <input type="text"  class="userInput" id="verificationText" placeholder="图片验证码">
-          <img id="verificationCode" src="../image/verificationCode.png" onclick="">
+          <img id="verificationCode" src="../image/verificationCode.png" onclick="refreshImageCode()">
         </div>
-        <a href="./setEmail.html">
-          <input type="button" class="submitButton" id="registerButton" value="提交" > 
-        </a>        
+        <input type="button" class="submitButton" id="submit" value="提交" >
       </div>
       <div class="otherFunc" id="loginPageBox">
         <a href="./appeal.html" id="loginPage">邮箱找不到？点此申诉</a>
@@ -39,3 +38,5 @@
   </div>
 </body>
 </html>
+<script type="text/javascript" src="js/code.js"></script>
+<script type="text/javascript" src="js/userData.js"></script>

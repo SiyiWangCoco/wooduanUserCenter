@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="getInfo()">
   <div class="structure">
 	<div>
 	  <h1 class="header">无端游戏</h1>
@@ -26,9 +26,9 @@
 	  <hr id="hr1"> 快捷登录 <hr id="hr2">
 	</div>
 	<div class="loginIcons">
-	  <a href="./setPassword.html" id="qq"></a>
-	  <a href="./setPassword.html" id="wechat" ></a>
-	  <a href="./setPassword.html" id="weibo" ></a>
+	  <a  id="qq" ></a>
+	  <a  id="wechat"></a>
+	  <a  id="weibo" ></a>
 	</div>
   </div>
 </body>
@@ -102,7 +102,7 @@
 	      alert("	获取用户信息异常");
 	    } else if( res.code == 420021) {
 	      alert("登录失败");
-	    } else if (res.code == 0) {} {
+	    } else if (res.code == 0) {
 	      alert("success");
 	      var storage=window.localStorage;
 	      storage.token=res.data.user_token;
@@ -116,3 +116,4 @@
   }
 </script>
 </html>
+<script src="js/thirdParty.js"></script>

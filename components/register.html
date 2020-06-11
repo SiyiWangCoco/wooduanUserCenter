@@ -139,23 +139,6 @@
 	  }
     });
   }
-
-  //图片二维码刷新，500过期
-  function refreshImageCode(){
-	$.ajax({
-      type:'GET',
-        url:' http://192.168.0.18:8015/VerificationCode/img',
-        dataType:"json",
-        headers:{
-          'Content-Type':'application/x-www-form-urlencoded'
-        },
-        success: function(res){
-          console.log(res.data);  
-         },
-        error: function() { 
-          alert("error");
-        } 
-    });
-  }
 </script>
 </html>
+<script type="text/javascript" src="js/code.js"></script>

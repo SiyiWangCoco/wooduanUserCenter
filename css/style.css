@@ -217,6 +217,12 @@ body {
   background-size: 6%;
 }
 
+#oldPassword {
+  background: rgba(171,171,171,0.3) url(./../image/passwordIcon.png) no-repeat;
+  background-position: 6% 45%;
+  background-size: 6%;
+}
+
 /*register*/
 #passwordAgain {
   background: rgba(171,171,171,0.3) url(./../image/passwordIcon.png) no-repeat;
@@ -310,6 +316,12 @@ body {
 }
 
 #answer {
+  background: rgba(171,171,171,0.3) url(./../image/verificationIcon.png) no-repeat;
+  background-position: 6% 45%;
+  background-size: 6%;
+}
+
+#answerAgain {
   background: rgba(171,171,171,0.3) url(./../image/verificationIcon.png) no-repeat;
   background-position: 6% 45%;
   background-size: 6%;

@@ -31,7 +31,7 @@
 	<div id="userDetails">
 	  <div class="whitleLink">
 		<div class="detailIcons"><img src="../image/passwordColoredIcon.png"></div>
-		<a class="underLine" href="./changePassword.html">
+		<a class="underLine" id="passwordHref">
 		  <div class="details">密码设置</div>
 		  <div class="rightArrow"><img src="../image/rightArrow.png"></div>
 		</a>
@@ -116,7 +116,7 @@
   </div>	
 </body>
 <script type="text/javascript">
-  let token =" eyJhbGciOiJzaGEyNTYiLCJ0eXBlIjoiand0In0=.eyJhcHBfa2V5IjoiQTAwMDEiLCJhcHBfaWQiOjEsImV4cGlyZSI6MTU5MTEwNDQxMywidHlwZSI6InVzZXJfdG9rZW4iLCJpcCI6IjEyNy4wLjAuMSIsInVzZXIiOnsiaWQiOjYsIndkX2lkIjoid2RfMjAxOTEwMjUiLCJhY2NvdW50IjoieHd6In19.a59e282b7f3f84dab91c9aa3a35e70fc38b54f55aad33df1479e908b3bbadeb8";
+  let token = window.localStorage.token;
   function getInfo(){
     $.ajax({
       type:'GET',
@@ -148,6 +148,7 @@
 	var emailNum = document.getElementById("emailNum");
 	var question = document.getElementById("question");	
 	//信息链接
+	var passwordHref = document.getElementById("passwordHref");
 	var identityHref = document.getElementById("identityHref");
 	var phoneHref =document.getElementById("phoneHref");
 	var emailHref = document.getElementById("emailHref");
@@ -164,6 +165,12 @@
 	  useridName.innerHTML = data.account;
 	} 
 	//信息区
+	if (data.password_level == 1) {
+		passwordHref.setAttribute("href", "./changePassword.html");
+	} else {
+		passwordHref.setAttribute("href", "./setPassword.html");
+	}
+
 	if (data.real_name.length != 0) { //实名
 	  realName.innerHTML = data.real_name;
 	  identityHref.setAttribute("href","./identityConfirmed.html");

@@ -128,7 +128,7 @@ function passwordSubmit(){
         alert("密保答案错误");
       } else if (res.code == 0) {
         alert("success");
-        window.rocation.href = "/components/login.html";
+        window.location.href = "/components/login.html";
       } else {
         alert( res.code + ": "+ res.msg);
       }

@@ -5,6 +5,7 @@
   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <title>电子邮箱</title>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
   <div class="loginBackground">
@@ -20,7 +21,7 @@
 		<input type="text" class="userInput" id="userEmail" placeholder="请填写您的电子邮箱">
 		<div class="verification">
 		  <input type="text"  class="userInput" id="verificationEnter" placeholder="请输入验证码">
-		  <input type="button" id="verificationSend" value="发送验证码">
+		  <input type="button" id="verificationSend" value="发送验证码" onclick="emailB('bind')">
 		  <div class="verticleLine"></div>				
 	    </div>
 		<a href="./emailConfirmed.html">
@@ -31,3 +32,4 @@
   </div>
 </body>
 </html>
+<script src="js/code.js"></script>
