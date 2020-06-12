@@ -28,12 +28,74 @@
 		</div>
 		<input type="text" class="userInput" id="answer" placeholder="请输入您的密保答案">
 		<input type="text" class="userInput" id="answerAgain" placeholder="请再次输入您的密保答案">
-        <a href="./questionConfirmed.html">
-          <input type="button" class="submitButton" id="registerButton" value="提交" > 
-        </a>     
+        <div>
+          <input type="button" class="submitButton" id="submit" value="提交" onclick="answerTest()" > 
+        </div>     
       </div>  
     </div>
   </div>
 </body>
+<script type="text/javascript">
+  let answer, confirm_answer, question, jump_code_verify
+  let token = window.localStorage.token;
+  function answerTest() {
+    var secQue = document.getElementById("question");
+    var secAns = document.getElementById("answer");
+    var answerAgain = document.getElementById("answerAgain");
+    if (secQue.value == "请选择您设置的密保问题") {
+      alert("请选择您设置的密保问题");
+      return;
+    } else if (secAns.value.length == 0) {
+      alert("请填写您的答案");
+      return;
+    } else if (answerAgain.value.length == 0) {
+      alert("请再次填写您的答案");
+      return;
+    } else {
+      if (secAns.value != answerAgain.value) {
+        alert("两次填写答案不一致");
+        return;
+      }
+      answer = secAns.value;
+      confirm_answer = answerAgain.value;
+      question = secQue.value;
+      jump_code_verify = 1;
+      questionSubmit()
+    }
+  }
+
+  function questionSubmit(){
+    let postData = {
+      answer: answer,
+      confirm_answer:confirm_answer,
+      question: question,
+      jump_code_verify: jump_code_verify
+    }      
+    $.ajax({
+      type:"POST",
+      url: 'http://192.168.0.18:8015/web/index/setSecurityQuestion',
+      dataType:"json",
+      data:JSON.stringify(postData),
+      contentType:'application/json',
+      headers:{
+        'Content-Type':'application/json', 
+        'token' : token
+      },
+      success:function(res){
+        console.log(res)
+        if (res.code == 0) {
+          alert("success");
+          window.location.href = "/components/userInfo.html";
+        } else {
+          alert( res.code + ": "+ res.msg);
+        }
+      },
+      error: function(res) {
+        alert("error");
+      }
+    });
+  }
+
+</script>
 </html>
 <script type="text/javascript" src="js/questiones.js"></script>

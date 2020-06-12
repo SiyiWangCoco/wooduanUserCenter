@@ -1,5 +1,5 @@
-//let token = window.localStorage.token;
-let token =" eyJhbGciOiJzaGEyNTYiLCJ0eXBlIjoiand0In0=.eyJhcHBfa2V5IjoiQTAwMDEiLCJhcHBfaWQiOjEsImV4cGlyZSI6MTU5MTEwNDQxMywidHlwZSI6InVzZXJfdG9rZW4iLCJpcCI6IjEyNy4wLjAuMSIsInVzZXIiOnsiaWQiOjYsIndkX2lkIjoid2RfMjAxOTEwMjUiLCJhY2NvdW50IjoieHd6In19.a59e282b7f3f84dab91c9aa3a35e70fc38b54f55aad33df1479e908b3bbadeb8";
+let token = window.localStorage.token;
+
 //接口用户信息
 function getInfo(info){
   $.ajax({
@@ -62,6 +62,7 @@ function getPhone(data){
 function oldPhoneNum(data){
   var oldPhone = document.getElementById("oldPhone");
    oldPhone.setAttribute("placeholder", data.phone);
+   refreshImageCode();
 }
 
 //用户已设置的电子邮箱
@@ -79,7 +80,8 @@ function getEmail(data) {
 // 解绑原电子邮箱
 function oldEmailNum(data){
   var oldEmail = document.getElementById("oldEmail");
-   oldEmail.setAttribute("placeholder", data.email);
+  oldEmail.setAttribute("placeholder", data.email);
+  refreshImageCode();
 }
 
 //用户实名认证姓名和身份证号码

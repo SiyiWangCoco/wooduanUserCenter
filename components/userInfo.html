@@ -193,7 +193,13 @@
 	  emailHref.setAttribute("href","./setEmail.html");
 	}
 	if (data.security_question != null) { //密保
-	  question.innerHTML = data.security_question;
+	  if (data.security_question.length >= 8) {
+	  	question.innerHTML = data.security_question.substr(0,8) + "...";
+
+	  } else {
+	  	question.innerHTML = data.security_question;
+	  }
+	 
 	  questionHref.setAttribute("href", "./questionConfirmed.html");
 	} else {
 	  question.innerHTML = "未设置";

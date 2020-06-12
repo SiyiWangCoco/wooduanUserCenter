@@ -5,6 +5,7 @@
   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <title>实名认证</title>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>	
   <div class="loginBackground">
@@ -16,12 +17,73 @@
 		<h1 class="header">实名认证</h1>
 		<div class="describe">请如实填写您的姓名和身份证号</div>
 	  </div>
-	  <a class="inputBoxes" href="IdentityConfirmed.html">
+	  <a class="inputBoxes">
 		<input type="text"  class="userInput" id="realName" placeholder="请填入您的真实姓名">
 		<input type="text" class="userInput" id="identityNum" placeholder="请填写您的身份证号码">
-		<input type="button" class="submitButton" id="submit" value="提交" >
+		<input type="button" class="submitButton" id="submit" value="提交" onclick="idTest()">
 	  </a>
 	</div>
   </div>
 </body>
+<script type="text/javascript">
+  let real_name, card_id;
+  let token = window.localStorage.token;
+  //实名
+  function idTest()  {
+    var realName = document.getElementById("realName");
+    var identityNum = document.getElementById("identityNum");
+  
+    if (realName.value.length == 0) { //未输入真实姓名
+      alert("请输入您的姓名");
+      return;
+    } else if (identityNum.value.length == 0) { //未输入身份证号码
+      alert("请输入您的身份证号码");
+      return;
+    } else {
+      var idreg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+      if (identityNum.value.length != 15 && identityNum.value.length != 18) { //身份证位数不对
+        alert("您的身份证号码应为15位或者18位数");
+        return;
+      } else if (idreg.test(identityNum.value)== false) { //格式不正确
+        alert("您输入的身份证号码有误");
+        return;
+      } 
+      real_name = realName.value;
+      card_id = identityNum.value; 
+    } 
+    idSubmit();
+  }
+
+  function idSubmit(){
+    let postData = {
+      real_name: real_name,
+      card_id:card_id
+    }      
+    $.ajax({
+      type:"POST",
+      url: 'http://192.168.0.18:8015/web/index/realNameAuthentication',
+      dataType:"json",
+      data:JSON.stringify(postData),
+      contentType:'application/json',
+      headers:{
+        'Content-Type':'application/json', 
+        'token' : token
+      },
+      success:function(res){
+        console.log(res)
+        if (res.code == 420002) {
+          alert("旧密码错误");
+        } else if (res.code == 0) {
+          alert("success");
+          window.location.href = "/components/userInfo.html";
+        } else {
+          alert( res.code + ": "+ res.msg);
+        }
+      },
+      error: function(res) {
+        alert("error");
+      }
+    });
+  }    
+</script>
 </html>

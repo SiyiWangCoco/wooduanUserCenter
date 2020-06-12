@@ -12,7 +12,7 @@ function phoneFind(use) {
 //获取手机号码(解绑手机)
 function oldPhone(use) {
   var oldPhone = document.getElementById("oldPhone");
-  phoneCode(oldPhone.value,use);
+  phoneCode(oldPhone.placeholder, use);
 }
 
 
@@ -39,9 +39,9 @@ function emailF(use) {
 }
 
 //获取邮箱号码(解绑邮箱)
-function getEmail(use) {
+function getEmailNum(use) {
   var oldEmail = document.getElementById("oldEmail");
-  emailCode(oldEmail.value,use);
+  emailCode(oldEmail.placeholder,use);
 }
 
 //图片二维码刷新，500过期
@@ -56,8 +56,10 @@ function refreshImageCode(){
     success: function(res){
       console.log(res.data);  
     },
-    error: function() { 
-      alert("error");
+    error: function(res) { 
+      console.log("error");
+      $("#verificationCode").attr("src", "http://192.168.0.18:8015/VerificationCode/img");
+
     } 
   });
 }
@@ -71,6 +73,7 @@ function phoneCode(phoneNum,use) {
     language: "zh",
     sign: $.md5( phoneNum + "|" + use + "|zh|" + key)
   }
+  console.log(postData)
   $.ajax({
     type:"POST",
     url: 'http://192.168.0.18:8015/web/basic/sendMessageCode',
@@ -78,7 +81,7 @@ function phoneCode(phoneNum,use) {
     data:JSON.stringify(postData),
     contentType:'application/json',
     success:function(res){
-      console.log(res)
+      console.log(res)      
       if (res.code == 10000) {
         alert(" 输入错误");
       } else if( res.code == 10008) {

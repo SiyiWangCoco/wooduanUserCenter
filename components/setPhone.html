@@ -25,12 +25,75 @@
           <input type="button" id="verificationSend" value="发送验证码" onclick="phoneFind('bind')">
           <div class="verticleLine"></div>
         </div>
-        <a href="./phoneConfirmed.html">
-          <input type="button" class="submitButton" id="submit"  value="提交" > 
-        </a>     
+        <div>
+          <input type="button" class="submitButton" id="submit"  value="提交" onclick="codeTest()" > 
+        </div>     
       </div>   
     </div>
   </div>
 </body>
+<script type="text/javascript">
+  let phone, code;
+  let token = window.localStorage.token;
+  //手机绑定
+  function codeTest()  {
+    var phoneFind = document.getElementById("phoneFind");
+    var verificationEnter = document.getElementById("verificationEnter");
+  
+    if (phoneFind.value.length == 0) { //未输入手机号码
+      alert("请输入您的手机号码");
+      return;
+    } else if (verificationEnter.value.length == 0) { //未输入验证码
+      alert("请输入验证码");
+      return;
+    } else {
+      let phoneReg = /^1[3-578]\d{9}$/; 
+      if (phoneReg.test(phoneFind.value)== false) { //格式不正确
+        alert("您输入的手机号码有误");
+        return;
+      } else {
+        let num = parseInt(verificationEnter.value);
+        if (isNaN(num) || num.toString().length != verificationEnter.value.length) {
+          alert("验证码有误");
+          return;
+        } 
+        code = num; 
+      }
+      phone = phoneFind.value;
+    } 
+    phoneSubmit();
+  }
+
+  function phoneSubmit(){
+    let postData = {
+      phone: phone,
+      code:code
+    }      
+    $.ajax({
+      type:"POST",
+      url: 'http://192.168.0.18:8015/web/index/bindMobilePhone',
+      dataType:"json",
+      data:JSON.stringify(postData),
+      contentType:'application/json',
+      headers:{
+        'Content-Type':'application/json', 
+        'token' : token
+      },
+      success:function(res){
+        console.log(res)
+        if (res.code == 0) {
+          alert("success");
+          window.location.href = "/components/userInfo.html";
+        } else {
+          alert( res.code + ": "+ res.msg);
+        }
+      },
+      error: function(res) {
+        alert("error");
+        e.target.src = res;
+      }
+    });
+  }    
+</script>
 </html>
 <script src="js/code.js"></script>

@@ -29,7 +29,7 @@
           <input type="text"  class="userInput" id="verificationText" placeholder="图片验证码">
           <img id="verificationCode" src="../image/verificationCode.png" onclick="refreshImageCode()">
         </div>
-          <input type="button" class="submitButton" id="submit" value="提交" onclick="" >
+          <input type="button" class="submitButton" id="submit" value="提交" onclick="codeTest()" >
       </div>
       <div class="otherFunc" id="loginPageBox">
         <a href="./appeal.html" id="loginPage">手机已不使用？点此申诉</a>
@@ -37,6 +37,64 @@
     </div>
   </div>
 </body>
+<script type="text/javascript">
+  let phone, code, image_code;
+  //手机解绑
+  function codeTest()  {
+    var oldPhone = document.getElementById("oldPhone");
+    var verificationEnter = document.getElementById("verificationEnter");
+    var verificationText = document.getElementById("verificationText");
+  
+    if (verificationText.value.length == 0) { //未输入图片验证码
+      alert("请输入图片验证码");
+      return;
+    } else if (verificationEnter.value.length == 0) { //未输入手机验证码
+      alert("请输入手机验证码");
+      return;
+    } else {
+      let num = parseInt(verificationEnter.value);
+      if (isNaN(num) || num.toString().length != verificationEnter.value.length) {
+        alert("验证码有误");
+        return;
+      } 
+      code = num; 
+      image_code = verificationText.value;
+      phone = oldPhone.placeholder;
+    } 
+    phoneUnbind();
+  }
+
+  function phoneUnbind(){
+    let postData = {
+      phone: phone,
+      code:code,
+      image_code: image_code
+    }      
+    $.ajax({
+      type:"POST",
+      url: 'http://192.168.0.18:8015/web/index/unBindMobilePhone',
+      dataType:"json",
+      data:JSON.stringify(postData),
+      contentType:'application/json',
+      headers:{
+        'Content-Type':'application/json', 
+        'token' : token
+      },
+      success:function(res){
+        console.log(res)
+        if (res.code == 0) {
+          alert("success");
+          window.location.href = "/components/userInfo.html";
+        } else {
+          alert( res.code + ": "+ res.msg);
+        }
+      },
+      error: function(res) {
+        alert("error");
+      }
+    });
+  }    
+</script>
 </html>
 <script type="text/javascript" src="js/code.js"></script>
 <script type="text/javascript" src="js/userData.js"></script>

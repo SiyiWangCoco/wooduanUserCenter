@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="../css/credit.css">
   <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body onload="getChargeData()">
+<body onload="gameInfo()">
   <div class="structure">
 	<div class="header">
 	  <div>
@@ -26,12 +26,12 @@
 	</div>				
 	<div id="selectBoxes">
 	  <div class="selected">
-		<input type="button" id="currentTime" value="最近一个月" onclick="recordTime()">
-		<input type="button" id="currentGame" value="全部游戏" onclick="recordGame()">
+		<input type="button" id="currentTime" name="1" value="最近一周" onclick="recordTime()">
+		<input type="button" id="currentGame" name="-1" value="全部游戏" onclick="recordGame()">
 	  </div>		
 	  <div class="select" id="recordTimeList">
-		<button class="subTimeBtn" id="oneMonth" onclick="currentTimeChange(event)">最近一个月</button>
-		<button class="subTimeBtn" id="halfYear" onclick="currentTimeChange(event)" >最近半年</button>
+		<button class="subTimeBtn" id="oneWeek" onclick="currentTimeChange(event)">最近一周</button>
+		<button class="subTimeBtn" id="oneMonth" onclick="currentTimeChange(event)" >最近一月</button>
 		<button class="subTimeBtn" id="allTimeRecord" onclick="currentTimeChange(event)">全部记录</button>
 	  </div>
 	  <div  class="select" id="recordGameList">
@@ -63,14 +63,16 @@
 		</div>
 		<div class='dataValue'>
 		  <p><span id="recordValue">999</span><span>元</span></p>
-		  <button id="changeCode">查看兑换码</button>
+		  <button id="changeCode" >查看兑换码</button>
 		</div>
 	  </div>
 	</div>
   </div>
 </body>			
 <script type="text/javascript">
-
+ let page, page_size, game_id, quick_selection;
+ let token = window.localStorage.token;
+ let base;
   //自定义下拉框
   function recordTime() {
 	var recordGameList=document.getElementById("recordGameList");
@@ -94,17 +96,21 @@
 	for (var i = 0; i < btns.length; i++) {
 	  btns[i].style.backgroundColor = '#333333';
 	}
-	if(e.target.id =="oneMonth"){
-	  document.getElementById("currentTime").value = "最近一个月";
+	if(e.target.id =="oneWeek"){
+	  document.getElementById("currentTime").value = "最近一周";
+	  document.getElementById("currentTime").setAttribute("name", "1");
+	  document.getElementById("oneWeek").style.backgroundColor = '#c72729';
+   }else if(e.target.id =="oneMonth"){
+	  document.getElementById("currentTime").value = "最近一月";
+	  document.getElementById("currentTime").setAttribute("name", "2");
 	  document.getElementById("oneMonth").style.backgroundColor = '#c72729';
-   }else if(e.target.id =="halfYear"){
-	  document.getElementById("currentTime").value = "最近半年";
-	  document.getElementById("halfYear").style.backgroundColor = '#c72729';
 	} else if (e.target.id =="allTimeRecord") {
       document.getElementById("currentTime").value = "全部记录";
+      document.getElementById("currentTime").setAttribute("name", "3");
 	  document.getElementById("allTimeRecord").style.backgroundColor = '#c72729';
 	}
     recordTime();
+    creditInfo();
   }
 
   //自定义游戏种类下拉框
@@ -132,19 +138,186 @@
 	}	
 	if(e.target.id =="allGame"){
 	  cur.value = "全部游戏";
+	  cur.setAttribute("name", "-1");
 	  document.getElementById("allGame").style.backgroundColor = '#c72729';
 	} else if(e.target.id =="ssjjPhone"){
 	  cur.value = "生死狙击手游";
+	  cur.setAttribute("name", "3");
 	  document.getElementById("ssjjPhone").style.backgroundColor = '#c72729';
 	} else if (e.target.id =="ssjj1") {
       cur.value = "生死狙击1";
+      cur.setAttribute("name", "2");
 	  document.getElementById("ssjj1").style.backgroundColor = '#c72729';
 	} else if (e.target.id =="ssjj2") {
 	  cur.value = "生死狙击2";
+	  cur.setAttribute("name", "1");
 	  document.getElementById("ssjj2").style.backgroundColor = '#c72729';
 	}
 	recordGame();
+	creditInfo();
   }			
+ 
+  function creditInfo() {
+  	var currentTime = document.getElementById("currentTime");
+  	var currentGame = document.getElementById("currentGame");
+  	var creditDataBox = document.getElementById("creditDataBox");
+  	creditDataBox.innerHTML = '';
+  	quick_selection = parseInt(currentTime.getAttribute("name"));
+  	game_id = parseInt(currentGame.getAttribute("name"));
+  	page = 1;
+  	page_size = 10;
+  	if (game_id == -1) { // all game
+  	  creditRecord(1);
+  	  creditRecord(2);
+  	  creditRecord(3);
+  	} else {
+  	  creditRecord(game_id);
+  	}
+  }
+
+  function creditRecord(id){
+  	let postData = {
+      page: page,
+      page_size:page_size,
+      game_id: id,
+      quick_selection: quick_selection
+    }   
+  	$.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/index/getChargeRecords',
+      dataType:"json",
+      data:postData,
+      headers:{
+      	'Content-Type':'application/x-www-form-urlencoded', 
+      	'token' : token
+      },
+      success:function(res){
+      	if (res.code == 0) {
+      	  console.log(res.data);
+      	  if (res.data.next_page_url != null) {
+      	  	page++;
+      	  	creditRecord(base, id);
+      	  	createBox(base, res.data);
+      	  } else {
+      	  	page = 1;
+      	  }
+      	} else {
+      	  alert(res.code + ": " + res.msg);
+      	}
+      },
+      error:function() { 
+        alert("error");
+      } 
+    });
+  }
+
+  function createBox(data) {
+  	for (let i = 0; i < data.data.length; i++) {
+	  var creditDataBox = document.getElementById("creditDataBox");
+	  let div = document.createElement("div");
+	  let div1 = document.createElement("div");
+	  let div2 = document.createElement("div");
+	  div.className = "creditData";
+	  div1.className = "dataRecord";
+	  div2.className = "dataValue";
+	  div.appendChild(div1);
+	  div.appendChild(div2);
+	  //左侧信息
+	  let p1 = document.createElement("p");
+	  let p2 = document.createElement("p");
+	  let p3 = document.createElement("p");
+	  let p4 = document.createElement("p");
+	  let span1_1 = document.createElement("span");
+	  let span1_2 = document.createElement("span");
+	  let span2_1 = document.createElement("span");
+	  let span2_2 = document.createElement("span");
+	  let span3_1 = document.createElement("span");
+	  let span3_2 = document.createElement("span");
+	  let span4_1 = document.createElement("span");
+	  let span4_2 = document.createElement("span");
+	  span1_2.id = "gameName";
+	  span1_2.innerHTML = getGameName(data.data.game_id);
+	  span2_2.id = "gameRegion";
+	  span2_2.innerHTML = getGameRegion(data.data.game_id, data.data.region_id);
+	  span3_2.id = "gamePackage";
+	  span3_2.innerHTML = data.data.rule_name;
+	  span4_2.id = "payTime";
+	  span4_2.innerHTML = data.data.created_at.split("")[0];
+	  p1.appendChild(span1_1);
+	  p1.appendChild(span1_2);
+	  p2.appendChild(span2_1);
+	  p2.appendChild(span2_2);
+	  p3.appendChild(span3_1);
+	  p3.appendChild(span3_2);
+	  p4.appendChild(span4_1);
+	  p4.appendChild(span4_2);
+	  div1.appendChild(p1);
+	  div1.appendChild(p2);
+	  div1.appendChild(p3);
+	  div1.appendChild(p4);
+	  //右侧金额
+	  let p5 = document.createElement("p");
+	  let span5_1 = document.createElement("span");
+	  let span5_2 = document.createElement("span");
+	  span5_1.id = "recordValue";
+	  p5.appendChild(span5_1);
+	  p5.appendChild(span5_2);
+	  div2.appendChild(p5);
+
+	  //兑换码
+	  if (data.data[i].charge_code.length != 0) {
+		let button = document.createElement("button");
+		button.id = "changeCode";
+		button.innerHTML = "查看兑换码";
+		button.setAttribute("name",data.data.charge_code);
+		button.setAttribute("onclick", "checkCode(event)");
+		div2.appendChild(button);
+	  }
+	}
+  }
+  
+  function gameInfo(){
+	$.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/basic/chargeBaseData',
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded'
+      },
+      success: function(res){
+        console.log(res.data); 
+        base = res.data;
+        creditInfo();
+      },
+      error: function() { 
+        alert("error");
+      } 
+    });
+  }
+
+  function getGameName(gameId){
+  	for (let i = 0; i < base.games.length; i++) {
+  	  if (base.games[i].id == gameId){
+  		return base.games[i].name.zh;
+  	  }
+  	}
+  }
+  function getGameRegion(gameId, regionId) {
+  	for (let i = 0; i < base.games.length; i++) {
+  	  if (base.games[i].id == gameId){
+  		for (let j = 0; j < base.games[i].regions.length; j++) {
+  			if(base.games[i].regions[j].id == regionId){
+  				return base.games[i].regions[j].name;
+  			}
+  		}
+  	  }
+  	}
+  }
+  
+  //兑换码
+  function checkCode(e){
+  	alert("您的兑换码为： " + e.target.getAttribute("name"));
+  }
 </script>
 </html>
 
