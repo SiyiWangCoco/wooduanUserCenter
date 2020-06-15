@@ -165,7 +165,7 @@
 	  useridName.innerHTML = data.account;
 	} 
 	//信息区
-	if (data.password_level == 1) {
+	if (data.password_level > 0) {
 		passwordHref.setAttribute("href", "./changePassword.html");
 	} else {
 		passwordHref.setAttribute("href", "./setPassword.html");

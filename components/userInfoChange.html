@@ -22,7 +22,10 @@
 	  <div id="changingDetails">
 		<div class="whitleLine">
 		  <div class="details2">头像</div>
-		  <div class="rightArrow"><img id="peopleFill" src="../image/people_fill.png"></div>
+		  <div class="rightArrow" >
+            <img id="peopleFill" src="../image/people_fill.png"  onclick="uploadLogo()">
+            <input type="file" id="photoFile" style="display: none;" onchange="upload()" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" >
+          </div>
 		</div>
 		<div class="whitleLine">
 		  <div class="details2">昵称</div>
@@ -30,9 +33,9 @@
 		</div>
 		<div class="whitleLine">
 		  <div class="details2">性别</div>
-		  <select class="rightArrow" id="sex">
-			<option selected="selected">男</option>
-			<option>女</option>
+		  <select class="rightArrow" id="sex" onchange="sexChange(this)">
+			<option value="1">男</option>
+			<option value="2">女</option>
 		  </select>
 		</div>
 		<div class="whitleLine">
@@ -52,13 +55,14 @@
 		  <input type="text" class="rightArrow" placeholder="未填写"> 
 		</div>
 		<div id="submitBox">
-		  <button id="submit"> 提交</button>
+		  <button id="submit" onclick="getChange()"> 提交</button>
 		</div>	
 	  </div>
 	</div>
   </div>
 </body>
 <script type="text/javascript">
+    let logo, birthday, sex, nick
   //生日年月选择	
   function setBirth() {
 	var noBirth = document.getElementById("noBirth");
@@ -66,7 +70,7 @@
 	var year = document.getElementById("year");
 	var month = document.getElementById("month");
 	noBirth.style.display = "none";
-	birthday.style.display = "block";
+	birthday.style.display = "block"; 
 
 	let date = new Date();
 	let curYear = date.getFullYear();
@@ -131,7 +135,7 @@
     });
   }
 
-  function setInfo(data){
+  function setInfo(data){  //所在地区及性别后台返回数据中没有
 	//标题区
 	var userName = document.getElementById("userName");
 	var userNumber = document.getElementById("userNumber");
@@ -163,9 +167,120 @@
 	  var date = data.birthday.split("-");			
 	  setBirth();
 	  year.value = date[0];
-	  month.value = date[1];
-	  day.value = date[2];
+      if (date[1].substr(0,0) == 0 ) {
+        month.value = date[1].substr(1,1);
+      } else {
+        month.value = date[1]
+      }
+
+	  if(date[2].substr(0,0) == 0) {
+        day.value = date[2].substr(1,1);
+      } else {
+        day.value = date[2];
+      }
+     
 	}
+  }
+
+
+  function uploadLogo(){
+    $("#photoFile").click();
+  }
+
+  function upload(){
+    if ($("#photoFile").val() == '') {
+      return;
+    }
+    let logo = new FormData();
+    logo.append('file',document.getElementById('photoFile').files[0]);
+    $.ajax({ 
+      type:"post",
+      url:"http://192.168.0.18:8015/web/index/uploadImage",
+      data: logo,
+      dataType:"json",
+      processData: false,
+      contentType:false,
+      headers:{
+        'token' : token
+      },
+      success: function(res) {
+      if (res.code == 0) {
+        $("#peopleFill").attr("src", res.data.file);
+        logo = res.data.file;
+        alert("success");
+      } else {
+        alert(res.code + ": " + res.msg);
+        }
+      },
+      error:function(data) {
+        alert("error")
+      }
+    });
+  }
+  
+  function sexChange(s){
+    s.value = s.options[s.options.selectedIndex].value;
+  }
+  
+  function getChange(){
+    var peopleFill = document.getElementById("peopleFill");
+    var birthdayDiv = document.getElementById("birthday");
+    var sexSele = document.getElementById("sex");
+    var nickName = document.getElementById("nickName");
+    
+    logo =  peopleFill.getAttribute("src");
+    sex = parseInt(sexSele.value);
+    if (nickName.value.length != 0) {
+        nick = nickName.value;
+    }
+    if (birthdayDiv.style.display != "none") {
+      var day = document.getElementById("day");
+      var month = document.getElementById("month");
+      var year = document.getElementById("year");
+      if (month.value > 9) {
+        birthday = (year.value) + "-" + month.value;
+      } else {
+        birthday = (year.value) + "-0" + month.value; 
+      }
+      if (day.value <= 9) {
+        birthday = birthday + "-0" + day.value;
+      } else {
+        birthday = birthday + "-" + day.value;
+      }
+      
+    }
+    modifyUser();
+  }
+
+  function modifyUser(){  
+    let postData = {
+        logo: logo,
+        birthday: birthday,
+        sex:sex,
+        nick:nick
+    }
+    $.ajax({
+      type:"POST",
+      url: 'http://192.168.0.18:8015/web/index/modifyUser',
+      dataType:"json",
+      data:JSON.stringify(postData),
+      contentType:'application/json',
+      headers:{
+        'Content-Type':'application/json', 
+        'token' : token
+      },
+      success:function(res){
+        console.log(res)
+        if (res.code == 0) {
+          alert("success");
+        } else {
+          alert( res.code + ": "+ res.msg);
+        }
+      },
+      error: function(res) {
+        alert("error");
+      }
+    });
   }
 </script>
 </html>

@@ -30,7 +30,7 @@
 	  </div>
 	  <div class="blackLine">
 		<div class="comfirmLabel">充值礼包：</div>
-		<div class="confirmInfo">金币礼包(<span id="gamePackage">99</span>金币)</div>
+		<div class="confirmInfo"><span id="gamePackage">99</span></div>
 	  </div>
 	  <div class="greyLine">
 		<div class="comfirmLabel">需支付金额：</div>
@@ -53,8 +53,9 @@
   let gameId = window.localStorage.gameId;
   let regionId = window.localStorage.regionId;
   let token = window.localStorage.token;
-  let value = window.localStorage.value;
-  let ratio = window.localStorage.ratio;
+  let ruleId = window.localStorage.ruleId;
+  let amountNum, currency, gold;
+
   
   function getInfo(){
     //获取接口游戏信息
@@ -111,11 +112,7 @@
   function gameInfo(data) {
 	var gameName = document.getElementById("gameName"); //游戏名
 	var gameRe = document.getElementById("gameRe"); //游戏区服
-    var gamePackage = document.getElementById("gamePackage"); // package 礼包
-    var gameMoney = document.getElementById("gameMoney"); //支付金额
-    gamePackage.innerHTML = value;
-    gameMoney.innerHTML = value * ratio * 0.1;
-
+    getRule();
 	for (let i = 0; i < data.games.length; i++) {  //region
 	  if (data.games[i].id == gameId) {
 		gameName.innerHTML = data.games[i].name.zh;
@@ -127,7 +124,7 @@
 	  }	
 	}
 
-	paySele = document.getElementById("paySele"); //对应游戏可接受支付方式选择创建
+	var paySele = document.getElementById("paySele"); //对应游戏可接受支付方式选择创建
 	paySele.innerHTML = "";
 	for (let k = 0; k < data.payments.length; k++) {        
 	  let payOption = document.createElement("option");
@@ -138,10 +135,83 @@
 	}
   }
 
+  function getRule() {
+    let getData = {
+      game_id : gameId,
+      region_id: regionId,
+      language: "zh"
+    }
+    $.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/index/getChargeRules',
+      data:getData,
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+        "token": token
+      },
+      success: function(res){
+        if (res.code == 0) {
+          console.log(res.data);
+          var gamePackage = document.getElementById("gamePackage"); // package 礼包
+          var gameMoney = document.getElementById("gameMoney"); //支付金额
+          for (let i = 0; i < res.data.rules.length; i++) {
+            if(res.data.rules[i].id == ruleId) {
+              gamePackage.innerHTML = res.data.rules[i].name;
+              gameMoney.innerHTML = res.data.rules[i].amount;
+              amountNum = res.data.rules[i].amount;
+              gold = res.data.rules[i].gold;
+              currency ="CNY";
+              return;
+            }
+          }
+        } else {
+          alert(res.code + ": " + res.msg);
+        }
+       },
+      error: function() { 
+        alert("error");
+      } 
+    });
+  }
+
   //确认支付，支付成功提示跳转界面
   function pay(){
-    alert("success");
-    window.location.href  = "/components/userInfo.html";
+    var paySele = document.getElementById("paySele"); 
+    let getData = {
+      game_id : parseInt(gameId),
+      region_id: parseInt(regionId),
+      language: "zh",
+      payment_id: parseInt(paySele.value),
+      amount: parseInt(amountNum),
+      currency: currency,
+      gold:parseInt(gold),
+      rule_id:parseInt(ruleId)
+    }
+    $.ajax({
+      type:'GET',
+      url:' http://192.168.0.18:8015/web/index/createChargeBill',
+      data:getData,
+      dataType:"json",
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+        "token": token
+      },
+      success: function(res){
+        if (res.code == 0) {
+          console.log(res.data);
+          
+           alert("success");
+        } else {
+          alert(res.code + ": " + res.msg);
+        }
+       },
+      error: function() { 
+        alert("error");
+      } 
+    });
+
+    // window.location.href  = "/components/userInfo.html";
   }
 </script>
 </html>

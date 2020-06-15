@@ -63,6 +63,8 @@
 <script type="text/javascript">
   let gameId = window.localStorage.gameId;
   let regionId = window.localStorage.regionId;
+  let token = window.localStorage.token;
+  let rule;
   
   function getInfo(){
 	$.ajax({
@@ -73,8 +75,9 @@
         'Content-Type':'application/x-www-form-urlencoded'
       },
       success: function(res){
+        getRule(res.data);
         console.log(res.data); 
-        setInfo(res.data);
+       
       },
       error: function() { 
         alert("error");
@@ -96,15 +99,16 @@
 		}
 		var creditPackageBoxes = document.getElementById("creditPackageBoxes");
 		creditPackageBoxes.innerHTML = "";
-		for (let k = 0; k < data.games[i].pay_configs.default_golds.length; k++) { // defult golds
-		  setCreditPackage(data.games[i].pay_configs.default_golds[k],data.games[i].pay_configs.zh.ratio,k);
+
+		for (let k = 0; k < rule.rules.length; k++) { // defult golds
+		  setCreditPackage(rule.rules[k]);
 		}
 	  }	
 	}
   }
 
   //创建金币礼包html
-  function setCreditPackage(value,ratio,k){
+  function setCreditPackage(r){
     var creditPackageBoxes = document.getElementById("creditPackageBoxes");
     let div = document.createElement("div"); //外框
     let a = document.createElement("a");  //链接
@@ -115,16 +119,8 @@
 
 	let div2 = document.createElement("div");  //左图
 	let img = document.createElement("img");
-	let gift = 0;
-	if (k == 0) {
-	  img.setAttribute("src", "../image/creditPackage1.png");
-	} else if (k == 1 || k == 2) {
-	  gift = value * 0.1;
-	  img.setAttribute("src", "../image/creditPackage2.png");
-	} else {
-	  gift = parseInt(value * 0.15);
-	  img.setAttribute("src", "../image/creditPackage3.png");
-	}
+	img.setAttribute("src", r.logo);
+	
 	div2.appendChild(img);
 
 	let div3 = document.createElement("div") // 右信息
@@ -133,14 +129,12 @@
 	let p3 = document.createElement("p");
 	div3.className = "packageInfo";
 	p1.className = "packageName";	
-	p1.id = value;
-	p1.innerHTML = "金币礼包(" + value + "金币)";
+    p1.id = r.id;
+	p1.innerHTML = r.name;
 	p2.className = "packageIntro";
-	p2.innerHTML = "充" + value + "金币送" + gift + "金币";
-	p2.id = gift;
+	p2.innerHTML = r.description;
 	p3.className = "packagePrice";
-	p3.innerHTML = "￥" + value * ratio * 0.1;
-	p3.id = ratio;
+	p3.innerHTML = "￥" + r.amount;
 	div3.appendChild(p1);
 	div3.appendChild(p2);
 	div3.appendChild(p3);
@@ -153,18 +147,44 @@
   function choosePackage(e){
 	let storage = window.localStorage;
 	if(e.target.tagName == "P"){
-	  storage.value = e.target.parentElement.firstElementChild.id;
-	  storage.gift = e.target.parentElement.firstElementChild.nextSibling.id;
-	  storage.ratio = e.target.parentElement.lastElementChild.id;
+	  storage.ruleId = e.target.parentElement.firstElementChild.id;
 	} else if (e.target.tagName == "DIV") {
-	  storage.value = e.target.firstElementChild.id;
-	  storage.gift = e.target.firstElementChild.nextSibling.id;
-	  storage.ratio = e.target.lastElementChild.id;
+	  storage.ruleId = e.target.firstElementChild.id;
 	} else if (e.target.tagName == "IMG") {
-	  storage.value = e.target.parentElement.parentElement.lastElementChild.firstElementChild.id;
-	  storage.gift = e.target.parentElement.parentElement.lastElementChild.firstElementChild.nextSibling.id;
-	  storage.ratio = e.target.parentElement.parentElement.lastElementChild.lastElementChild.id;
+	  storage.ruleId = e.target.parentElement.parentElement.lastElementChild.firstElementChild.id;
 	}
   }
+
+
+   function getRule(data){
+    let getData = {
+      game_id : gameId,
+      region_id: regionId,
+      language: "zh"
+    }
+  $.ajax({
+    type:'GET',
+    url:' http://192.168.0.18:8015/web/index/getChargeRules',
+    data:getData,
+    dataType:"json",
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded',
+      "token": token
+    },
+    success: function(res){
+      if (res.code == 0) {
+          rule = res.data;
+          console.log(res.data);
+          setInfo(data);
+        } else {
+          alert(res.code + ": " + res.msg);
+        }
+      
+     },
+    error: function() { 
+      alert("error");
+    } 
+  });
+}
 </script>	
 </html>
